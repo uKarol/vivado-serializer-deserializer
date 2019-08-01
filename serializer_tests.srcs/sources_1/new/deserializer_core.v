@@ -25,24 +25,24 @@ module deserializer_core(
     input wire rst,
     input wire serial_in,
     output reg [7:0] data_out,
-    output reg [1:0] des_state,
-    output reg [3:0] oversample_counter,
-    output reg [3:0] bit_counter,
+    output reg [1:0] des_state,  // signal temporarily taken as output for debuging
+    output reg [3:0] oversample_counter, // signal temporarily taken as output for debuging
+    output reg [3:0] bit_counter, // signal temporarily taken as output for debuging
     output reg ack
     );
     // external next
     reg[7:0] data_out_nxt;
     reg ack_nxt;
     
-    // licznik oversamplingu
-    //reg [3:0] oversample_counter; 
+    // oversampling counter
+    //reg [3:0] oversample_counter;  
     reg [3:0] oversample_counter_nxt;
     
-    // licznik bitów
+    // bit counter
   //  reg [3:0] bit_counter; 
     reg [3:0] bit_counter_nxt;
     
-    // stan uk³adu
+    // deserializer state
    // reg [1:0]des_state;
     reg [1:0]des_state_nxt; 
     
@@ -82,11 +82,11 @@ module deserializer_core(
     always @*    
     begin 
     
-    // maszyna stanów 
+    // state machine 
     
     case( des_state )
         
-        // stan idle, oczekujemy na bit startu
+        // idle state, waiting for serial_in change
         
         des_idle: 
         begin 
@@ -113,7 +113,7 @@ module deserializer_core(
             end 
         end
         
-        // próbkowanie bitu startu
+        // start bit sampling
         
         start_bit_sampling:
         begin 
@@ -140,7 +140,7 @@ module deserializer_core(
             
         end
         
-        //w³aœciwe próbkowanie bitów
+        //message bits sampling
         
         middle_bits_sampling:
         begin
@@ -176,7 +176,7 @@ module deserializer_core(
         
         end
         
-        // próbkowanie bitu stopu 
+        // stop bit sampling
         
         stop_bit_sampling:
         begin 
