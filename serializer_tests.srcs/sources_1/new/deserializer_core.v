@@ -26,6 +26,8 @@ module deserializer_core(
     input wire serial_in,
     output reg [7:0] data_out,
     output reg [1:0] des_state,
+    output reg [3:0] oversample_counter,
+    output reg [3:0] bit_counter,
     output reg ack
     );
     // external next
@@ -33,11 +35,11 @@ module deserializer_core(
     reg ack_nxt;
     
     // licznik oversamplingu
-    reg [3:0] oversample_counter; 
+    //reg [3:0] oversample_counter; 
     reg [3:0] oversample_counter_nxt;
     
     // licznik bitów
-    reg [3:0] bit_counter; 
+  //  reg [3:0] bit_counter; 
     reg [3:0] bit_counter_nxt;
     
     // stan uk³adu
@@ -191,7 +193,7 @@ module deserializer_core(
             begin
                 data_out_nxt = data_out;
                 ack_nxt = 0;
-                des_state_nxt = middle_bits_sampling;
+                des_state_nxt = stop_bit_sampling;
                 oversample_counter_nxt = oversample_counter + 1;
                 bit_counter_nxt = bit_counter; 
             end        
