@@ -1,4 +1,4 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module deserializer_core
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module deserializer_test

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 01.08.2019 11:16:05
+// Create Date: 02.08.2019 19:56:40
 // Design Name: 
-// Module Name: deserializer_core
+// Module Name: deserializer_core_32
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,18 +20,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module deserializer_core(
-    input wire clk,
-    input wire rst,
-    input wire serial_in,
-    output reg [7:0] data_out,
-    output reg [1:0] des_state,  // signal temporarily taken as output for debuging
+module deserializer_core_32(
+    input clk,
+    input rst,
+    input serial_in,
+    output reg [31:0] data_out,
+    output reg [2:0] des_state,  // signal temporarily taken as output for debuging
     output reg [3:0] oversample_counter, // signal temporarily taken as output for debuging
-    output reg [3:0] bit_counter, // signal temporarily taken as output for debuging
-    output reg ack
+    output reg [5:0] bit_counter, // signal temporarily taken as output for debuging
+    output reg ack,
+    output reg frame_error
     );
-    // external next
-    reg[7:0] data_out_nxt;
+    
+        // external next
+    reg[31:0] data_out_nxt;
     reg ack_nxt;
     
     // oversampling counter
@@ -40,20 +42,23 @@ module deserializer_core(
     
     // bit counter
   //  reg [3:0] bit_counter; 
-    reg [3:0] bit_counter_nxt;
+    reg [5:0] bit_counter_nxt;
     
     // deserializer state
    // reg [1:0]des_state;
-    reg [1:0]des_state_nxt; 
+    reg [2:0]des_state_nxt; 
+    
+    reg frame_error_nxt;
     
     localparam 
         // states 
-        des_idle = 2'b00,
-        start_bit_sampling = 2'b01,
-        middle_bits_sampling = 2'b11,
-        stop_bit_sampling = 2'b10,
+        des_idle             = 3'b000,
+        start_bit_sampling   = 3'b001,
+        middle_bits_sampling = 3'b011,
+        stop_bit_sampling    = 3'b010,
+        stop_bit_error       = 3'b110,
         // deserializer parameters
-        FRAME_SIZE = 9, 
+        FRAME_SIZE = 33, 
         OVERSAMPLING_NUMBER = 15;   
     
     
@@ -69,7 +74,9 @@ module deserializer_core(
             oversample_counter_nxt <= 0;
             des_state <= des_idle; 
             bit_counter <= 0;
-            bit_counter_nxt <= 0;          
+            bit_counter_nxt <= 0; 
+            frame_error <= 0;  
+            frame_error_nxt <= 0;   
         end
         else 
         begin 
@@ -77,14 +84,15 @@ module deserializer_core(
             ack <= ack_nxt;
             oversample_counter <= oversample_counter_nxt; 
             des_state <= des_state_nxt;   
-            bit_counter <= bit_counter_nxt;         
+            bit_counter <= bit_counter_nxt; 
+            frame_error <=  frame_error_nxt;     
         end      
      
     end    
     
     
     always @*    
-    begin 
+    begin
     
     // state machine 
     
@@ -103,6 +111,7 @@ module deserializer_core(
                 des_state_nxt = start_bit_sampling;
                 oversample_counter_nxt = 0;
                 bit_counter_nxt = 0; 
+                frame_error_nxt = 0;
              
             end
             else 
@@ -113,7 +122,8 @@ module deserializer_core(
                 oversample_counter_nxt = 0;
                 des_state_nxt = des_idle;
                 oversample_counter_nxt = 0;
-                bit_counter_nxt = 0;           
+                bit_counter_nxt = 0; 
+                frame_error_nxt = 0;          
             end 
         end
         
@@ -129,6 +139,7 @@ module deserializer_core(
                 des_state_nxt = middle_bits_sampling;
                 oversample_counter_nxt = 0;
                 bit_counter_nxt = bit_counter+1;
+                frame_error_nxt = 0;
          
             end
             else 
@@ -139,6 +150,7 @@ module deserializer_core(
                 des_state_nxt = start_bit_sampling;
                 oversample_counter_nxt = oversample_counter + 1;
                 bit_counter_nxt = 0; 
+                frame_error_nxt = 0;
         
             end 
             
@@ -155,7 +167,8 @@ module deserializer_core(
                 ack_nxt = 0;
                 des_state_nxt = stop_bit_sampling;               
                 oversample_counter_nxt = 0;
-                bit_counter_nxt = bit_counter+1;                
+                bit_counter_nxt = bit_counter+1;  
+                frame_error_nxt = 0;              
             end            
             else if(oversample_counter_nxt == 4'b1111)
             begin
@@ -165,6 +178,7 @@ module deserializer_core(
                 des_state_nxt = middle_bits_sampling;               
                 oversample_counter_nxt = 0;
                 bit_counter_nxt = bit_counter+1;
+                frame_error_nxt = 0;
      
             end
             else 
@@ -175,6 +189,7 @@ module deserializer_core(
                 des_state_nxt = middle_bits_sampling;
                 oversample_counter_nxt = oversample_counter + 1;
                 bit_counter_nxt = bit_counter; 
+                frame_error_nxt = 0;
     
             end           
         
@@ -189,9 +204,15 @@ module deserializer_core(
     
                 data_out_nxt = data_out;
                 ack_nxt = 1;
-                des_state_nxt = des_idle;               
+                if(serial_in == 0)begin
+                    des_state_nxt = des_idle;  
+                end    
+                else begin
+                    des_state_nxt = stop_bit_error; 
+                end
                 oversample_counter_nxt = 0;
                 bit_counter_nxt = bit_counter+1;
+                frame_error_nxt = 0;
             end
             else 
             begin
@@ -200,8 +221,21 @@ module deserializer_core(
                 des_state_nxt = stop_bit_sampling;
                 oversample_counter_nxt = oversample_counter + 1;
                 bit_counter_nxt = bit_counter; 
-            end        
-                
+                frame_error_nxt = 0;
+            end                
+        end
+        
+        // if stop bit is not 0
+        
+        stop_bit_error: 
+        begin 
+            data_out_nxt = data_out;
+            ack_nxt = 0;
+            des_state_nxt = stop_bit_error;
+            oversample_counter_nxt = 0;
+            bit_counter_nxt = 0; 
+            frame_error_nxt = 1;
+            
         end
       
     endcase

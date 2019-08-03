@@ -25,12 +25,12 @@ module deserializer_test(
     );
     
     reg clock, serial_data, reset; 
-    wire [7:0] data_out;
-    wire [1:0] state;
-    wire [3:0] bit_counter;
+    wire [31:0] data_out;
+    wire [2:0] state;
+    wire [5:0] bit_counter;
     wire [3:0] ovs_counter;
     
-    deserializer_core DUT(
+    deserializer_core_32 DUT(
         .clk(clock),
         .rst(reset),
         .serial_in(serial_data), 
@@ -42,9 +42,9 @@ module deserializer_test(
     
     integer i; // loop counter
     
-    reg [9:0] serial_template_1 = 9'b0101010101;
-    reg [9:0] serial_template_2 = 9'b0110011001; 
-    reg [9:0] serial_template_3 = 9'b0111100001;
+    reg [33:0] serial_template_1 = 34'b0_1010_1010_1010_1010_1010_1010_1010_1010_1;
+    reg [33:0] serial_template_2 = 34'b0_1100_1100_1100_1100_1100_1100_1100_1100_1; 
+    reg [33:0] serial_template_3 = 34'b0_1111_0000_1111_0000_1111_0000_1111_0000_1;
     
     initial 
     begin 
@@ -63,8 +63,8 @@ module deserializer_test(
         serial_data = 0;
         
         // test case 1
-        #160 $display("TEST 1, serial data in: %b", serial_template_1[8:1]);
-        for( i = 0; i<10; i=i+1) begin
+        #160 $display("TEST 1, serial data in: %b", serial_template_1[32:1]);
+        for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_1[i];
             #160 $display("data_in");
             $display("data_in %b", serial_data);
@@ -80,13 +80,13 @@ module deserializer_test(
         $display("paralel data %b", data_out);
         $display("state %b", state);
         
-        if( data_out == serial_template_1[8:1] ) $display("TEST 1 PASSED");
+        if( data_out == serial_template_1[32:1] ) $display("TEST 1 PASSED");
         else $display("TEST 1 FAILED");
         
         // test case 2
         
-        #160 $display("TEST 2, serial data in: %b", serial_template_2[8:1]);
-        for( i = 0; i<10; i=i+1) begin
+        #160 $display("TEST 2, serial data in: %b", serial_template_2[32:1]);
+        for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_2[i];
             #160 $display("data_in");
             $display("data_in %b", serial_data);
@@ -102,14 +102,14 @@ module deserializer_test(
         $display("paralel data %b", data_out);
         $display("state %b", state);
         
-        if( data_out == serial_template_2[8:1] ) $display("TEST 2 PASSED");
+        if( data_out == serial_template_2[32:1] ) $display("TEST 2 PASSED");
         else $display("TEST 2 FAILED");
         
         
         // test case 3
         
-        #160 $display("TEST 2, serial data in: %b", serial_template_3[8:1]);
-        for( i = 0; i<10; i=i+1) begin
+        #160 $display("TEST 2, serial data in: %b", serial_template_3[32:1]);
+        for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_3[i];
             #160 $display("data_in");
             $display("data_in %b", serial_data);
@@ -125,7 +125,7 @@ module deserializer_test(
         $display("paralel data %b", data_out);
         $display("state %b", state);
         
-        if( data_out == serial_template_3[8:1] ) $display("TEST 3 PASSED");
+        if( data_out == serial_template_3[32:1] ) $display("TEST 3 PASSED");
         else $display("TEST 3 FAILED");
         
  

@@ -7,7 +7,7 @@ Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.deserializer_core
+Compiling module xil_defaultlib.deserializer_core_32
 Compiling module xil_defaultlib.deserializer_test
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot deserializer_test_behav
