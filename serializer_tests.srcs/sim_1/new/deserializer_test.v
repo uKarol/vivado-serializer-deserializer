@@ -26,19 +26,20 @@ module deserializer_test(
     
     reg clock, serial_data, reset; 
     wire [31:0] data_out;
-    wire [2:0] state;
-    wire [5:0] bit_counter;
-    wire [3:0] ovs_counter;
     
     deserializer_core_32 DUT(
         .clk(clock),
         .rst(reset),
         .serial_in(serial_data), 
-        .data_out( data_out ),
-        .des_state(state),
-        .oversample_counter(ovs_counter),
-        .bit_counter(bit_counter)
+        .data_out( data_out )
     );
+    
+    localparam 
+        CLOCK_PERIOD = 10,
+        OVERSAMPLING_SAMPLES = 16,
+        BIT_SAMPLING_CYCLES = CLOCK_PERIOD*OVERSAMPLING_SAMPLES; 
+     
+    
     
     integer i; // loop counter
     
@@ -55,76 +56,43 @@ module deserializer_test(
        
        // clock generation  
     always 
-        #5  clock =  ! clock; 
-
-    
+        #(CLOCK_PERIOD/2)  clock =  ! clock; 
+   
     initial begin 
    
         serial_data = 0;
         
         // test case 1
-        #160 $display("TEST 1, serial data in: %b", serial_template_1[32:1]);
+        #CLOCK_PERIOD $display("TEST 1, serial data in: %b", serial_template_1[32:1]);
         for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_1[i];
-            #160 $display("data_in");
-            $display("data_in %b", serial_data);
-            $display("bit counter %d", bit_counter);
-            $display("paralel data %b", data_out);
-            $display("state %b", state);
-                        
-        end
-        
-        
-        #320 $display("data_in %b", serial_data);
-        $display("bit counter %d", bit_counter);
-        $display("paralel data %b", data_out);
-        $display("state %b", state);
-        
+            #BIT_SAMPLING_CYCLES $display("data_in %b", serial_data);                       
+        end           
+        #(2*BIT_SAMPLING_CYCLES) $display("paralel data %b", data_out);        
         if( data_out == serial_template_1[32:1] ) $display("TEST 1 PASSED");
         else $display("TEST 1 FAILED");
         
         // test case 2
         
-        #160 $display("TEST 2, serial data in: %b", serial_template_2[32:1]);
+        $display("TEST 2, serial data in: %b", serial_template_2[32:1]);
         for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_2[i];
-            #160 $display("data_in");
-            $display("data_in %b", serial_data);
-            $display("bit counter %d", bit_counter);
-            $display("paralel data %b", data_out);
-            $display("state %b", state);
-                        
+            #BIT_SAMPLING_CYCLES $display("data_in %b", serial_data);                     
         end
-        
-        
-        #320 $display("data_in %b", serial_data);
-        $display("bit counter %d", bit_counter);
-        $display("paralel data %b", data_out);
-        $display("state %b", state);
-        
+             
+        #(2*BIT_SAMPLING_CYCLES) $display("paralel data %b", data_out);       
         if( data_out == serial_template_2[32:1] ) $display("TEST 2 PASSED");
         else $display("TEST 2 FAILED");
-        
-        
+               
         // test case 3
         
-        #160 $display("TEST 2, serial data in: %b", serial_template_3[32:1]);
+        $display("TEST 3, serial data in: %b", serial_template_3[32:1]);
         for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_3[i];
-            #160 $display("data_in");
-            $display("data_in %b", serial_data);
-            $display("bit counter %d", bit_counter);
-            $display("paralel data %b", data_out);
-            $display("state %b", state);
-                        
+            #BIT_SAMPLING_CYCLES $display("data_in %b", serial_data);               
         end
-        
-        
-        #320 $display("data_in %b", serial_data);
-        $display("bit counter %d", bit_counter);
-        $display("paralel data %b", data_out);
-        $display("state %b", state);
-        
+               
+        #(2*BIT_SAMPLING_CYCLES) $display("paralel data %b", data_out);        
         if( data_out == serial_template_3[32:1] ) $display("TEST 3 PASSED");
         else $display("TEST 3 FAILED");
         
