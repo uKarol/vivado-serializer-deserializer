@@ -26,12 +26,14 @@ module deserializer_test(
     
     reg clock, serial_data, reset; 
     wire [31:0] data_out;
+    wire ack_test;
     
     deserializer_core_32 DUT(
         .clk(clock),
         .rst(reset),
         .serial_in(serial_data), 
-        .data_out( data_out )
+        .data_out( data_out ),
+        .ack(ack_test)
     );
     
     localparam 
