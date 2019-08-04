@@ -1,10 +1,10 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: AGH UST
+// Engineer:  Karol Ujda
 // 
 // Create Date: 02.08.2019 19:56:40
-// Design Name: 
+// Design Name:
 // Module Name: deserializer_core_32
 // Project Name: 
 // Target Devices: 

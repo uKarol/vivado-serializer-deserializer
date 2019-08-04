@@ -1,0 +1,48 @@
+#-----------------------------------------------------------
+# Vivado v2017.4 (64-bit)
+# SW Build 2086221 on Fri Dec 15 20:55:39 MST 2017
+# IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+# Start of session at: Sun Aug  4 17:22:41 2019
+# Process ID: 13404
+# Current directory: C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent14140 C:\Users\Karol\Desktop\semestr_6\cyfrowka_vlsi\serializer_tests\serializer_tests.xpr
+# Log file: C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/vivado.log
+# Journal file: C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+run all
+relaunch_sim
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
