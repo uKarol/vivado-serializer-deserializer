@@ -21,9 +21,10 @@
 
 
 module deserializer_core_32(
-    input clk,
-    input rst,
-    input serial_in,
+    input wire clk,
+    input wire rst,
+    input wire serial_in,
+    input wire req,
     output reg [31:0] data_out,
     output reg ack,
     output reg frame_error
@@ -107,7 +108,7 @@ module deserializer_core_32(
         
         des_idle: 
         begin 
-            if( serial_in == 1) 
+            if(( serial_in == 1 ) && (req == 1 ) )
             begin                
                 data_out_nxt = data_out;
                 ack_nxt = 0;
@@ -246,14 +247,19 @@ module deserializer_core_32(
         end
         
         word_sampling_finish: 
-        begin 
+        begin                    
             data_out_nxt = parallel_data;
-            ack_nxt =  1;
-            des_state_nxt = des_idle;
+            ack_nxt =  1;           
             oversample_counter_nxt = 0;
             bit_counter_nxt = 0; 
             frame_error_nxt = 0;
-            parallel_data_nxt = parallel_data;      
+            parallel_data_nxt = parallel_data;  
+            if(req == 0) begin    
+                des_state_nxt = des_idle;
+            end    
+            else begin
+                des_state_nxt = word_sampling_finish; 
+            end
         end 
         
       

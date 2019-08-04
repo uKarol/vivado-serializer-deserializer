@@ -27,13 +27,15 @@ module deserializer_test(
     reg clock, serial_data, reset; 
     wire [31:0] data_out;
     wire ack_test;
+    reg req_test;
     
     deserializer_core_32 DUT(
         .clk(clock),
         .rst(reset),
         .serial_in(serial_data), 
         .data_out( data_out ),
-        .ack(ack_test)
+        .ack(ack_test),
+        .req(req_test)
     );
     
     localparam 
@@ -66,6 +68,7 @@ module deserializer_test(
         
         // test case 1
         #CLOCK_PERIOD $display("TEST 1, serial data in: %b", serial_template_1[32:1]);
+        req_test = 1;
         for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_1[i];
             #BIT_SAMPLING_CYCLES $display("data_in %b", serial_data);                       
@@ -73,10 +76,12 @@ module deserializer_test(
         #(2*BIT_SAMPLING_CYCLES) $display("paralel data %b", data_out);        
         if( data_out == serial_template_1[32:1] ) $display("TEST 1 PASSED");
         else $display("TEST 1 FAILED");
+        req_test = 0; 
         
         // test case 2
         
-        $display("TEST 2, serial data in: %b", serial_template_2[32:1]);
+        #CLOCK_PERIOD $display("TEST 2, serial data in: %b", serial_template_2[32:1]);
+        req_test = 1;
         for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_2[i];
             #BIT_SAMPLING_CYCLES $display("data_in %b", serial_data);                     
@@ -85,10 +90,11 @@ module deserializer_test(
         #(2*BIT_SAMPLING_CYCLES) $display("paralel data %b", data_out);       
         if( data_out == serial_template_2[32:1] ) $display("TEST 2 PASSED");
         else $display("TEST 2 FAILED");
-               
+        req_test = 0;
         // test case 3
         
-        $display("TEST 3, serial data in: %b", serial_template_3[32:1]);
+        #CLOCK_PERIOD $display("TEST 3, serial data in: %b", serial_template_3[32:1]);
+        req_test = 1;
         for( i = 0; i<34; i=i+1) begin
             serial_data = serial_template_3[i];
             #BIT_SAMPLING_CYCLES $display("data_in %b", serial_data);               
@@ -97,7 +103,7 @@ module deserializer_test(
         #(2*BIT_SAMPLING_CYCLES) $display("paralel data %b", data_out);        
         if( data_out == serial_template_3[32:1] ) $display("TEST 3 PASSED");
         else $display("TEST 3 FAILED");
-        
+        req_test = 0; 
  
         $finish;
     end
