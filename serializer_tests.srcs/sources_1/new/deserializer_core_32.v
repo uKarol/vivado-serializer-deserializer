@@ -19,81 +19,135 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module deserializer_core_32(
     input wire clk,
     input wire rst,
     input wire serial_in,
-    input wire req,
-    output reg [31:0] data_out,
+    output reg [7:0] data_out_A,
+    output reg [7:0] data_out_B,
     output reg ack,
-    output reg frame_error
+    output reg frame_error,
+    
+    output reg [2 :0] opcode,
+    output reg [3 :0] crc,
+    
+    output reg [7:0] parallel_data_A,
+    output reg [3:0] oversample_counter,
+    output reg [3:0]des_state,
+    output reg [5:0] bit_counter
     );
     
-        // external next
-    reg[31:0] data_out_nxt;
+      
+  localparam 
+          // states 
+       DES_IDLE               = 4'b0000,        
+       START_BIT_SAMPLING     = 4'b0001,      
+       PACKET_TYPE_SAMPLING   = 4'b0010,     
+       DATA_BITS_SAMPLING     = 4'b0011,
+       CMD_FIRST_BIT_SAMPLING = 4'b0100,
+       CMD_OPCODE_SAMPLING    = 4'b0101,
+       CMD_CRC_SAMPLING       = 4'b0110,
+       STOP_BIT_SAMPLING      = 4'b0111,        
+       LATCH_DATA             = 4'b1000, 
+       // deserializer parameters
+       FRAME_SIZE = 7, 
+       FRAME_NUMBER = 9,
+       OVERSAMPLING_NUMBER = 15,
+       
+       // OUT SIGNALS PARAMS   
+       DATA_OUT_SIZE = 7,  
+       OPCODE_OUT_SIZE = 2,
+       CRC_OUT_SIZE = 3;   
+       
+
+    
+    // OUTPUT SIGNALS NXT
+    reg[7:0] data_out_A_nxt;
+    reg[7:0] data_out_B_nxt;
     reg ack_nxt;
+    reg frame_error_nxt;    
+    reg [2:0] opcode_nxt;
+    reg [3:0] crc_nxt; 
     
-    // internal paralell register
-    reg [31:0] parallel_data;
-    reg [31:0] parallel_data_nxt; 
+    // INTERNAL PARALLEL SIGNALS
+ //   reg [DATA_OUT_SIZE:0] parallel_data_A;
+    reg [DATA_OUT_SIZE:0] parallel_data_A_nxt; 
+    reg [DATA_OUT_SIZE:0] parallel_data_B;
+    reg [DATA_OUT_SIZE:0] parallel_data_B_nxt; 
     
-    // oversampling counter
-    reg [3:0] oversample_counter;  
-    reg [3:0] oversample_counter_nxt;
-    
-    // bit counter
-    reg [5:0] bit_counter; 
-    reg [5:0] bit_counter_nxt;
+    //COUNTERS 
+//    reg [3:0] oversample_counter;  
+    reg [3:0] oversample_counter_nxt;    
+  //  reg [5:0] bit_counter; 
+    reg [5:0] bit_counter_nxt;    
+    reg [3:0] frame_counter;
+    reg [3:0] frame_counter_nxt;
     
     // deserializer state
-    reg [2:0]des_state;
-    reg [2:0]des_state_nxt; 
-    
-    reg frame_error_nxt;
-    
-    localparam 
-        // states 
-        des_idle             = 3'b000,
-        start_bit_sampling   = 3'b001,
-        middle_bits_sampling = 3'b011,
-        stop_bit_sampling    = 3'b010,
-        stop_bit_error       = 3'b110,
-        word_sampling_finish = 3'b111, 
-        // deserializer parameters
-        FRAME_SIZE = 33, 
-        OVERSAMPLING_NUMBER = 15;   
-    
-    
+ //   reg [2:0]des_state;
+    reg [3:0]des_state_nxt; 
+       
     always @( posedge clk or posedge rst )
     begin 
         if(rst == 1) 
         begin
-            data_out <= 8'b0;
-            ack <= 0;
-            data_out_nxt <= 8'b0;
+            // out signals 
+            data_out_A <= 0;
+            data_out_A_nxt <= 0;
+            data_out_B <= 0;
+            data_out_B_nxt <= 0;
+            ack <= 0;       
             ack_nxt <= 0;
+            opcode <= 0;
+            opcode_nxt <= 0;
+            crc <= 0;
+            crc_nxt <= 0; 
+            frame_error <= 0;  
+            frame_error_nxt <= 0; 
+            
+            
             oversample_counter <= 0;
             oversample_counter_nxt <= 0;
-            des_state <= des_idle; 
+            
+            des_state <= DES_IDLE; 
+            des_state_nxt <= DES_IDLE;
+            
             bit_counter <= 0;
             bit_counter_nxt <= 0; 
-            frame_error <= 0;  
-            frame_error_nxt <= 0;   
-            parallel_data_nxt <= 0;
-            parallel_data <= 0;
+  
+            parallel_data_A_nxt <= 0;
+            parallel_data_A <= 0;
+            
+            parallel_data_B_nxt <= 0;
+            parallel_data_B <= 0;
+           
+            frame_counter <= 0;
+            frame_counter_nxt <= 0;
         end
         else 
         begin 
-            data_out <= data_out_nxt;
+        
+            // OUTPUT SIGNALS
+            data_out_A <= data_out_A_nxt;
+            data_out_B <= data_out_B_nxt;
+            frame_error <=  frame_error_nxt;
             ack <= ack_nxt;
+            crc <= crc_nxt;
+            opcode <= opcode_nxt;
+            
+            // INTERNAL PARALLEL SIGNALS
+            parallel_data_A <= parallel_data_A_nxt;
+            parallel_data_B <= parallel_data_B_nxt;
+            
+            //COUNTERS
             oversample_counter <= oversample_counter_nxt; 
-            des_state <= des_state_nxt;   
+            frame_counter <= frame_counter_nxt;   
             bit_counter <= bit_counter_nxt; 
-            frame_error <=  frame_error_nxt;     
-            parallel_data <= parallel_data_nxt;
-        end      
-     
+            
+            // STATE           
+            des_state <= des_state_nxt;
+            
+        end          
     end    
     
     
@@ -106,160 +160,339 @@ module deserializer_core_32(
         
         // idle state, waiting for serial_in change
         
-        des_idle: 
+        DES_IDLE: 
         begin 
-            if(( serial_in == 1 ) && (req == 1 ) )
+            if(( serial_in == 0 ) )
             begin                
-                data_out_nxt = data_out;
-                ack_nxt = 0;
-                oversample_counter_nxt = 0;
-                des_state_nxt = start_bit_sampling;
+                
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
+                frame_error_nxt = 0;
+                
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+                
+                //COUNTER NXT
+                frame_counter_nxt = frame_counter;
                 oversample_counter_nxt = 0;
                 bit_counter_nxt = 0; 
-                frame_error_nxt = 0;
-                parallel_data_nxt = 0;             
+                    
+                //NEXT STATE
+                des_state_nxt = START_BIT_SAMPLING;
+                         
             end
             else 
-            begin           
-                data_out_nxt = data_out;
-                ack_nxt = ack;
-                oversample_counter_nxt = 0;
-                des_state_nxt = des_idle;
-                oversample_counter_nxt = 0;
-                bit_counter_nxt = 0; 
-                frame_error_nxt = 0;  
-                parallel_data_nxt = 0;        
+            begin      
+            
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
+                frame_error_nxt = 0;
+                
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+                
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = 0;
+                bit_counter_nxt         = 0; 
+                 
+                //NEXT STATE
+                des_state_nxt = DES_IDLE;
+                       
             end 
         end
         
         // start bit sampling
         
-        start_bit_sampling:
+        START_BIT_SAMPLING:
         begin 
             if( oversample_counter == OVERSAMPLING_NUMBER/2 )
             begin
-            
-                data_out_nxt = data_out;
-                ack_nxt = 0;
-                des_state_nxt = middle_bits_sampling;
-                oversample_counter_nxt = 0;
-                bit_counter_nxt = bit_counter+1;
+                      
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A<<1;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
                 frame_error_nxt = 0;
-                parallel_data_nxt = parallel_data;
+            
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+            
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = 0;
+                bit_counter_nxt         = 0; 
+             
+                //NEXT STATE
+                des_state_nxt = PACKET_TYPE_SAMPLING;
+                           
             end
             else 
             begin
         
-                data_out_nxt = data_out;
-                ack_nxt = 0;
-                des_state_nxt = start_bit_sampling;
-                oversample_counter_nxt = oversample_counter + 1;
-                bit_counter_nxt = 0; 
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
                 frame_error_nxt = 0;
-                parallel_data_nxt = parallel_data;
+        
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+        
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = oversample_counter+1;
+                bit_counter_nxt         = 0; 
+         
+                //NEXT STATE
+                des_state_nxt = START_BIT_SAMPLING;
             end 
             
         end
+                
+        // packet type sampling
         
-        //message bits sampling
+        PACKET_TYPE_SAMPLING:
+        begin 
+            if( oversample_counter == OVERSAMPLING_NUMBER )
+            begin
+            
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
+                frame_error_nxt = 0;
         
-        middle_bits_sampling:
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+        
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = 0;
+                bit_counter_nxt         = 0; 
+         
+                //NEXT STATE
+       /*         if( serial_in == 1 ) 
+                    des_state_nxt = CMD_FIRST_BIT_SAMPLING;
+                else */
+                    des_state_nxt = DATA_BITS_SAMPLING;
+                
+            end
+            else 
+            begin
+        
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
+                frame_error_nxt = 0;
+    
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+    
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = oversample_counter+1;
+                bit_counter_nxt         = 0; 
+     
+                //NEXT STATE
+                des_state_nxt = PACKET_TYPE_SAMPLING;
+            end 
+            
+        end
+                              
+        //data bits sampling
+        
+        DATA_BITS_SAMPLING:
         begin
             
             if(( bit_counter == FRAME_SIZE ) && ( oversample_counter == OVERSAMPLING_NUMBER ))
             begin
-                parallel_data_nxt[bit_counter-1] = serial_in;
-                ack_nxt = 0;
-                des_state_nxt = stop_bit_sampling;               
-                oversample_counter_nxt = 0;
-                bit_counter_nxt = bit_counter+1;  
-                frame_error_nxt = 0;     
-                data_out_nxt = data_out;         
+            
+            
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
+                frame_error_nxt = 0;
+                
+                //INTERNAL PARALLEL SIGLAS NXT 
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+                
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = 0;
+                bit_counter_nxt         = 0; 
+                
+                //NEXT STATE
+                des_state_nxt = STOP_BIT_SAMPLING;
+              
+                     
             end            
-            else if(oversample_counter_nxt == 4'b1111)
+            else if(oversample_counter_nxt == OVERSAMPLING_NUMBER)
             begin       
-                parallel_data_nxt[bit_counter-1] = serial_in;
-                ack_nxt = 0;
-                des_state_nxt = middle_bits_sampling;               
-                oversample_counter_nxt = 0;
-                bit_counter_nxt = bit_counter+1;
-                frame_error_nxt = 0;     
-                data_out_nxt = data_out;
+                
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
+                frame_error_nxt = 0;
+            
+                //INTERNAL PARALLEL SIGLAS NXT 
+                parallel_data_A_nxt = parallel_data_A<<1;
+                parallel_data_B_nxt = parallel_data_B;
+            
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = 0;
+                bit_counter_nxt         = bit_counter+1;
+            
+                //NEXT STATE
+                des_state_nxt = DATA_BITS_SAMPLING;              
+                
             end
             else 
             begin  
-                data_out_nxt = data_out;
-                ack_nxt = 0;
-                des_state_nxt = middle_bits_sampling;
-                oversample_counter_nxt = oversample_counter + 1;
-                bit_counter_nxt = bit_counter; 
+            
+            
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
                 frame_error_nxt = 0;
-                parallel_data_nxt = parallel_data;    
+        
+                //INTERNAL PARALLEL SIGLAS NXT 
+                parallel_data_A_nxt = { parallel_data_A[7:1] , serial_in };
+                parallel_data_B_nxt = parallel_data_B;
+        
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = oversample_counter+1;
+                bit_counter_nxt         = bit_counter;
+        
+                //NEXT STATE
+                des_state_nxt = DATA_BITS_SAMPLING;                 
+                  
             end           
         
         end
         
         // stop bit sampling
         
-        stop_bit_sampling:
+        STOP_BIT_SAMPLING:
         begin 
             if(oversample_counter == OVERSAMPLING_NUMBER)
             begin
                     
-                data_out_nxt = data_out;
-                ack_nxt = 0;
-                
-                if(serial_in == 0)begin
-                    des_state_nxt = word_sampling_finish;                   
-                end    
-                else begin
-                    des_state_nxt = stop_bit_error;
-                end
-                
-                oversample_counter_nxt = 0;
-                bit_counter_nxt = bit_counter+1;
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
                 frame_error_nxt = 0;
-                parallel_data_nxt = parallel_data; 
+
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = 0;
+                bit_counter_nxt         = 0; 
+ 
+                //NEXT STATE
+                des_state_nxt = LATCH_DATA;
             end
             else 
             begin
-                data_out_nxt = data_out;
-                ack_nxt = 0;
-                des_state_nxt = stop_bit_sampling;
-                oversample_counter_nxt = oversample_counter + 1;
-                bit_counter_nxt = bit_counter; 
+                // OUTPUT SIGNALS NXT           
+                data_out_A_nxt = data_out_A;
+                data_out_B_nxt = data_out_B;                             
+                crc_nxt = crc;
+                opcode_nxt = opcode;
+                ack_nxt = 0; 
                 frame_error_nxt = 0;
-                parallel_data_nxt = parallel_data;
+    
+                //INTERNAL PARALLEL SIGLAS NXT
+                parallel_data_A_nxt = parallel_data_A;
+                parallel_data_B_nxt = parallel_data_B;
+    
+                //COUNTER NXT
+                frame_counter_nxt       = frame_counter;
+                oversample_counter_nxt  = oversample_counter+1;
+                bit_counter_nxt         = 0; 
+     
+                //NEXT STATE
+                des_state_nxt = STOP_BIT_SAMPLING;
             end                
         end
         
         // if stop bit is not 0
-        
-        stop_bit_error: 
+     /*   
+        stop_bit_error_A: 
         begin 
-            data_out_nxt = data_out;
+            data_out_A_nxt = data_out_A;
             ack_nxt = 0;
-            des_state_nxt = stop_bit_error;
+            des_state_nxt = stop_bit_error_A;
             oversample_counter_nxt = 0;
             bit_counter_nxt = 0; 
             frame_error_nxt = 1;
-            parallel_data_nxt = parallel_data; 
+            parallel_data_A_nxt = parallel_data_A; 
         end
+        */
+        LATCH_DATA: 
+        begin     
         
-        word_sampling_finish: 
-        begin                    
-            data_out_nxt = parallel_data;
-            ack_nxt =  1;           
-            oversample_counter_nxt = 0;
-            bit_counter_nxt = 0; 
+            // OUTPUT SIGNALS NXT           
+            data_out_A_nxt = parallel_data_A;
+            data_out_B_nxt = parallel_data_B;                             
+            crc_nxt = crc;
+            opcode_nxt = opcode;
+            ack_nxt = 1; 
             frame_error_nxt = 0;
-            parallel_data_nxt = parallel_data;  
-            if(req == 0) begin    
-                des_state_nxt = des_idle;
-            end    
-            else begin
-                des_state_nxt = word_sampling_finish; 
-            end
+
+            //INTERNAL PARALLEL SIGLAS NXT
+            parallel_data_A_nxt = parallel_data_A;
+            parallel_data_B_nxt = parallel_data_B;
+
+            //COUNTER NXT
+            frame_counter_nxt       = frame_counter;
+            oversample_counter_nxt  = 0;
+            bit_counter_nxt         = 0; 
+
+            //NEXT STATE
+            des_state_nxt = DES_IDLE;
+  
         end 
         
       

@@ -46,3 +46,65 @@ close_sim
 launch_simulation
 source deserializer_test.tcl
 run all
+close_sim
+launch_simulation
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+step
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
