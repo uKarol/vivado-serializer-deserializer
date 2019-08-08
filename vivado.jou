@@ -132,3 +132,29 @@ close_sim
 launch_simulation
 source deserializer_test.tcl
 run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+add_bp {C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v} 121
+remove_bps -file {C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v} -line 121
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all

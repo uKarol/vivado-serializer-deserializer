@@ -23,15 +23,15 @@ module deserializer_core_32(
     input wire clk,
     input wire rst,
     input wire serial_in,
-    output reg [7:0] data_out_A,
-    output reg [7:0] data_out_B,
+    output reg [31:0] data_out_A,
+    output reg [31:0] data_out_B,
     output reg ack,
     output reg frame_error,
     
     output reg [2 :0] opcode,
     output reg [3 :0] crc,
     
-    output reg [7:0] parallel_data_A,
+    output reg [31:0] parallel_data_A,
     output reg [3:0] oversample_counter,
     output reg [3:0]des_state,
     output reg [5:0] bit_counter
@@ -51,19 +51,24 @@ module deserializer_core_32(
        LATCH_DATA             = 4'b1000, 
        // deserializer parameters
        FRAME_SIZE = 7, 
+       
+       A_DATA_LAST = 4,
+       B_DATA_LAST = 8,
+       CMD_FRAME = 8,
+       
        FRAME_NUMBER = 9,
        OVERSAMPLING_NUMBER = 15,
        
        // OUT SIGNALS PARAMS   
-       DATA_OUT_SIZE = 7,  
+       DATA_OUT_SIZE = 31,  
        OPCODE_OUT_SIZE = 2,
        CRC_OUT_SIZE = 3;   
        
 
     
     // OUTPUT SIGNALS NXT 6
-    reg[7:0] data_out_A_nxt;
-    reg[7:0] data_out_B_nxt;
+    reg[31:0] data_out_A_nxt;
+    reg[31:0] data_out_B_nxt;
     reg ack_nxt;
     reg frame_error_nxt;    
     reg [2:0] opcode_nxt;
@@ -192,8 +197,7 @@ module deserializer_core_32(
                                
                 parallel_crc_nxt = parallel_crc;
                 parallel_opcode_nxt = parallel_opcode;
-
-                
+               
                 //COUNTER NXT
                 frame_counter_nxt = frame_counter;
                 oversample_counter_nxt = 0;
@@ -240,7 +244,7 @@ module deserializer_core_32(
             begin
                       
                 // OUTPUT SIGNALS NXT           
-                data_out_A_nxt = data_out_A<<1;
+                data_out_A_nxt = data_out_A;
                 data_out_B_nxt = data_out_B;                             
                 crc_nxt = crc;
                 opcode_nxt = opcode;
@@ -248,8 +252,20 @@ module deserializer_core_32(
                 frame_error_nxt = 0;
             
                 //INTERNAL PARALLEL SIGLAS NXT
-                parallel_data_A_nxt = parallel_data_A;
-                parallel_data_B_nxt = parallel_data_B;
+                if( frame_counter < A_DATA_LAST ) begin
+                    parallel_data_A_nxt = parallel_data_A<<1;
+                    parallel_data_B_nxt = parallel_data_B;
+                end
+                else if (frame_counter < B_DATA_LAST)
+                begin
+                    parallel_data_A_nxt = parallel_data_A;   
+                    parallel_data_B_nxt = parallel_data_B<<1;
+                end
+                else 
+                begin
+                    parallel_data_A_nxt = parallel_data_A;   
+                    parallel_data_B_nxt = parallel_data_B;
+                end
                            
                 parallel_crc_nxt = parallel_crc;
                 parallel_opcode_nxt = parallel_opcode;
@@ -396,9 +412,16 @@ module deserializer_core_32(
                 frame_error_nxt = 0;
             
                 //INTERNAL PARALLEL SIGLAS NXT 
-                parallel_data_A_nxt = parallel_data_A<<1;
-                parallel_data_B_nxt = parallel_data_B;
-            
+                if( frame_counter < A_DATA_LAST ) begin
+                    parallel_data_A_nxt = parallel_data_A<<1;
+                    parallel_data_B_nxt = parallel_data_B;
+                end
+                else 
+                begin
+                    parallel_data_A_nxt = parallel_data_A;   
+                    parallel_data_B_nxt = parallel_data_B<<1;
+                end
+                
                 parallel_crc_nxt = parallel_crc;
                 parallel_opcode_nxt = parallel_opcode;
             
@@ -413,8 +436,7 @@ module deserializer_core_32(
             end
             else 
             begin  
-            
-            
+               
                 // OUTPUT SIGNALS NXT           
                 data_out_A_nxt = data_out_A;
                 data_out_B_nxt = data_out_B;                             
@@ -424,8 +446,16 @@ module deserializer_core_32(
                 frame_error_nxt = 0;
         
                 //INTERNAL PARALLEL SIGLAS NXT 
-                parallel_data_A_nxt = { parallel_data_A[7:1] , serial_in };
-                parallel_data_B_nxt = parallel_data_B;
+                if( frame_counter < A_DATA_LAST )
+                begin
+                    parallel_data_A_nxt = { parallel_data_A[31:1] , serial_in };
+                    parallel_data_B_nxt = parallel_data_B;
+                end
+                else 
+                begin
+                    parallel_data_A_nxt = parallel_data_A;  
+                    parallel_data_B_nxt = { parallel_data_B[31:1] , serial_in };                                             
+                end
                               
                 parallel_crc_nxt = parallel_crc;
                 parallel_opcode_nxt = parallel_opcode;
@@ -706,12 +736,16 @@ module deserializer_core_32(
                 parallel_opcode_nxt = parallel_opcode;
 
                 //COUNTER NXT
-                frame_counter_nxt       = frame_counter;
+                frame_counter_nxt       = frame_counter+1;
                 oversample_counter_nxt  = 0;
                 bit_counter_nxt         = 0; 
  
                 //NEXT STATE
-                des_state_nxt = LATCH_DATA;
+                if(frame_counter == CMD_FRAME)
+                    des_state_nxt = LATCH_DATA;
+                else
+                    des_state_nxt = DES_IDLE;    
+                
             end
             else 
             begin
@@ -735,7 +769,7 @@ module deserializer_core_32(
                 oversample_counter_nxt  = oversample_counter+1;
                 bit_counter_nxt         = 0; 
      
-                //NEXT STATE
+                //NEXT STATE               
                 des_state_nxt = STOP_BIT_SAMPLING;
             end                
         end
@@ -773,7 +807,7 @@ module deserializer_core_32(
 
 
             //COUNTER NXT
-            frame_counter_nxt       = frame_counter;
+            frame_counter_nxt       = 0;
             oversample_counter_nxt  = 0;
             bit_counter_nxt         = 0; 
 

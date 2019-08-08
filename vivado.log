@@ -5291,3 +5291,712 @@ data_in 1
 opcode 000, crc 1010
 CMD TEST 1 PASSED
 $finish called at time : 20900 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 255
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj deserializer_test_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_test
+INFO: [USF-XSim-69] 'compile' step finished in '4' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
+WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:58]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.deserializer_core_32
+Compiling module xil_defaultlib.deserializer_test
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot deserializer_test_behav
+run_program: Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 945.355 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '6' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2017.4
+Time resolution is 1 ps
+source deserializer_test.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST 1, serial data in: 10101010
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:04 ; elapsed = 00:00:14 . Memory (MB): peak = 945.355 ; gain = 0.000
+run all
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+paralel data 10101010
+TEST 1 PASSED
+TEST 2, serial data in: 11110000
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+paralel data 11110000
+TEST 2 PASSED
+TEST 3, serial data in: 11001100
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+paralel data 11001100
+TEST 3 PASSED
+TEST 4, serial data in: 11001100
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+paralel data 00110101
+TEST 4 PASSED
+TEST 5, serial data in: 10010101
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+paralel data 10010101
+TEST 5 PASSED
+TEST 6, serial data in: 00000101
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+paralel data 00000101
+TEST 6 PASSED
+TEST 7, serial data in: 00010100
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+paralel data 00010100
+TEST 7 PASSED
+TEST 8, serial data in: 00101111
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 1
+data_in 1
+paralel data 00101111
+TEST 8 PASSED
+TEST 9, serial data in: 11000110
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 1
+paralel data 11000110
+TEST 9 PASSED
+CMD TEST 1, OPCODE: 000 , CRC: 1010
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+opcode 000, crc 1010
+CMD TEST 1 PASSED
+CMD TEST 2, OPCODE: 001 , CRC: 0000
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+opcode 001, crc 0000
+CMD TEST 2 PASSED
+CMD TEST 3, OPCODE: 100 , CRC: 1100
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+opcode 100, crc 1100
+CMD TEST 3 PASSED
+CMD TEST 4, OPCODE: 101 , CRC: 0101
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+opcode 101, crc 0101
+CMD TEST 4 PASSED
+CMD TEST 5, OPCODE: 001 , CRC: 0101
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+opcode 001, crc 0101
+CMD TEST 5 PASSED
+CMD TEST 6, OPCODE: 000 , CRC: 0101
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 1
+opcode 000, crc 0101
+CMD TEST 6 PASSED
+CMD TEST 7, OPCODE: 101 , CRC: 0100
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+opcode 101, crc 0100
+CMD TEST 7 PASSED
+CMD TEST 8, OPCODE: 100 , CRC: 1111
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 1
+data_in 1
+data_in 1
+data_in 1
+data_in 1
+opcode 100, crc 1111
+CMD TEST 8 PASSED
+$finish called at time : 35530 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 357
+add_bp {C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v} 121
+remove_bps -file {C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v} -line 121
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_sim: Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 953.492 ; gain = 1.969
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj deserializer_test_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_test
+INFO: [USF-XSim-69] 'compile' step finished in '5' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 8 differs from formal bit length 32 for port parallel_data_A [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
+WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
+WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:60]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.deserializer_core_32
+Compiling module xil_defaultlib.deserializer_test
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot deserializer_test_behav
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:09 . Memory (MB): peak = 953.492 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '9' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2017.4
+Time resolution is 1 ps
+source deserializer_test.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST 1, serial data in: 10101010
+xsim: Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 953.492 ; gain = 0.000
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:10 ; elapsed = 00:00:19 . Memory (MB): peak = 953.492 ; gain = 0.000
+run all
+TEST 2, serial data in: 11110000
+TEST 3, serial data in: 11001100
+TEST 4, serial data in: 11001100
+TEST 5, serial data in: 10010101
+TEST 6, serial data in: 00000101
+TEST 7, serial data in: 00010100
+TEST 8, serial data in: 00101111
+CMD TEST 1, OPCODE: 000 , CRC: 1010
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+opcode 000, crc 1010
+CMD TEST 1 PASSED
+$finish called at time : 18810 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 208
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj deserializer_test_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_test
+INFO: [USF-XSim-69] 'compile' step finished in '4' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 8 differs from formal bit length 32 for port parallel_data_A [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
+WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
+WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:60]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.deserializer_core_32
+Compiling module xil_defaultlib.deserializer_test
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot deserializer_test_behav
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:06 . Memory (MB): peak = 956.137 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '7' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2017.4
+Time resolution is 1 ps
+source deserializer_test.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST 1, serial data in: 10101010
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 956.137 ; gain = 0.000
+run all
+TEST 2, serial data in: 11110000
+TEST 3, serial data in: 11001100
+TEST 4, serial data in: 11001100
+TEST 5, serial data in: 10010101
+TEST 6, serial data in: 00000101
+TEST 7, serial data in: 00010100
+TEST 8, serial data in: 00101111
+CMD TEST 1, OPCODE: 000 , CRC: 1010
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+opcode 000, crc 1010
+CMD TEST 1 PASSED
+$finish called at time : 18810 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 208
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj deserializer_test_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_test
+INFO: [USF-XSim-69] 'compile' step finished in '4' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 8 differs from formal bit length 32 for port parallel_data_A [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
+WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
+WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:60]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.deserializer_core_32
+Compiling module xil_defaultlib.deserializer_test
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot deserializer_test_behav
+run_program: Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 956.137 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '5' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2017.4
+Time resolution is 1 ps
+source deserializer_test.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST 1, serial data in: 10101010
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:10 ; elapsed = 00:00:14 . Memory (MB): peak = 956.137 ; gain = 0.000
+run all
+TEST 2, serial data in: 11110000
+TEST 3, serial data in: 11001100
+TEST 4, serial data in: 11001100
+TEST 5, serial data in: 10010101
+TEST 6, serial data in: 00000101
+TEST 7, serial data in: 00010100
+TEST 8, serial data in: 00101111
+CMD TEST 1, OPCODE: 000 , CRC: 1010
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+opcode 000, crc 1010
+DATA A PASSED
+CMD TEST 1 PASSED
+$finish called at time : 18810 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 208
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj deserializer_test_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_test
+INFO: [USF-XSim-69] 'compile' step finished in '4' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 8 differs from formal bit length 32 for port parallel_data_A [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
+WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
+WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:60]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.deserializer_core_32
+Compiling module xil_defaultlib.deserializer_test
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot deserializer_test_behav
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:05 . Memory (MB): peak = 956.137 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '5' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2017.4
+Time resolution is 1 ps
+source deserializer_test.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST 1, serial data in: 10101010
+xsim: Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 956.137 ; gain = 0.000
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:08 ; elapsed = 00:00:16 . Memory (MB): peak = 956.137 ; gain = 0.000
+run all
+TEST 2, serial data in: 11110000
+TEST 3, serial data in: 11001100
+TEST 4, serial data in: 11001100
+TEST 5, serial data in: 10010101
+TEST 6, serial data in: 00000101
+TEST 7, serial data in: 00010100
+TEST 8, serial data in: 00101111
+CMD TEST 1, OPCODE: 000 , CRC: 1010
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+opcode 000, crc 1010
+DATA A PASSED
+CMD TEST 1 PASSED
+$finish called at time : 18810 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 208
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -prj deserializer_test_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_core_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module deserializer_test
+INFO: [USF-XSim-69] 'compile' step finished in '4' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+Vivado Simulator 2017.4
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 8 differs from formal bit length 32 for port parallel_data_A [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
+WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
+WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:60]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.deserializer_core_32
+Compiling module xil_defaultlib.deserializer_test
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot deserializer_test_behav
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:06 . Memory (MB): peak = 956.137 ; gain = 0.000
+INFO: [USF-XSim-69] 'elaborate' step finished in '6' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2017.4
+Time resolution is 1 ps
+source deserializer_test.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST 1, serial data in: 10101010
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:09 ; elapsed = 00:00:15 . Memory (MB): peak = 956.137 ; gain = 0.000
+run all
+TEST 2, serial data in: 11110000
+TEST 3, serial data in: 11001100
+TEST 4, serial data in: 11001100
+TEST 5, serial data in: 10010101
+TEST 6, serial data in: 00000101
+TEST 7, serial data in: 00010100
+TEST 8, serial data in: 00101111
+CMD TEST 1, OPCODE: 000 , CRC: 1010
+data_in 0
+data_in 1
+data_in 1
+data_in 0
+data_in 0
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+data_in 0
+data_in 1
+opcode 000, crc 1010
+DATA A PASSED
+CMD TEST 1 PASSED
+$finish called at time : 18810 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 209
