@@ -4,6 +4,7 @@ Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f
 Using 2 slave threads.
 Starting static elaboration
 WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
+WARNING: [VRFC 10-1783] select index 9 into serial_template_8 is out of bounds [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:183]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

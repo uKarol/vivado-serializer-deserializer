@@ -49,6 +49,8 @@ module deserializer_core_32(
        CMD_CRC_SAMPLING       = 4'b0110,
        STOP_BIT_SAMPLING      = 4'b0111,        
        LATCH_DATA             = 4'b1000, 
+       FRAME_ERROR            = 4'b1001,
+       
        // deserializer parameters
        FRAME_SIZE = 7, 
        
@@ -334,10 +336,12 @@ module deserializer_core_32(
                 bit_counter_nxt         = 0; 
          
                 //NEXT STATE
-                if( serial_in == 1 ) 
+                if( ( serial_in == 1 ) && ( frame_counter == 8 ) ) 
                     des_state_nxt = CMD_FIRST_BIT_SAMPLING;
+                else if( ( serial_in == 0 ) && ( frame_counter < 8 ) )
+                    des_state_nxt = DATA_BITS_SAMPLING;     
                 else 
-                    des_state_nxt = DATA_BITS_SAMPLING;                
+                    des_state_nxt = FRAME_ERROR;            
             end
             else 
             begin       
@@ -498,10 +502,10 @@ module deserializer_core_32(
                 bit_counter_nxt         = 0; 
          
                 //NEXT STATE
-         //       if( serial_in == 1 ) 
+                if( serial_in == 1 ) 
                     des_state_nxt = CMD_OPCODE_SAMPLING;
-         //       else 
-         //       des_state_nxt = DATA_BITS_SAMPLING;                
+                else 
+                    des_state_nxt = FRAME_ERROR;                
             end
             else 
             begin       
@@ -741,6 +745,8 @@ module deserializer_core_32(
                 bit_counter_nxt         = 0; 
  
                 //NEXT STATE
+                if( serial_in != 1 )
+                    des_state_nxt = FRAME_ERROR;
                 if(frame_counter == CMD_FRAME)
                     des_state_nxt = LATCH_DATA;
                 else
@@ -774,19 +780,6 @@ module deserializer_core_32(
             end                
         end
         
-        // if stop bit is not 0
-     /*   
-        stop_bit_error_A: 
-        begin 
-            data_out_A_nxt = data_out_A;
-            ack_nxt = 0;
-            des_state_nxt = stop_bit_error_A;
-            oversample_counter_nxt = 0;
-            bit_counter_nxt = 0; 
-            frame_error_nxt = 1;
-            parallel_data_A_nxt = parallel_data_A; 
-        end
-        */
         LATCH_DATA: 
         begin     
         
@@ -814,7 +807,39 @@ module deserializer_core_32(
             //NEXT STATE
             des_state_nxt = DES_IDLE;
   
-        end         
+        end        
+        
+        
+        
+        FRAME_ERROR: 
+        begin     
+        
+            // OUTPUT SIGNALS NXT           
+            data_out_A_nxt = data_out_A;
+            data_out_B_nxt = data_out_B;                            
+            crc_nxt =  parallel_crc;
+            opcode_nxt = parallel_opcode;
+            ack_nxt = 0; 
+            frame_error_nxt = 1;
+
+            //INTERNAL PARALLEL SIGLAS NXT
+            parallel_data_A_nxt = parallel_data_A;
+            parallel_data_B_nxt = parallel_data_B;
+                       
+            parallel_crc_nxt = parallel_crc;
+            parallel_opcode_nxt = parallel_opcode;
+
+            //COUNTER NXT
+            frame_counter_nxt       = 0;
+            oversample_counter_nxt  = 0;
+            bit_counter_nxt         = 0; 
+
+            //NEXT STATE
+            des_state_nxt = FRAME_ERROR;
+  
+        end   
+        
+         
       
     endcase
     

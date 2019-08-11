@@ -32,7 +32,7 @@ module deserializer_test(
     wire [31:0] data_out_A;
     wire [31:0] data_out_B;
     wire ack_test;
-    wire stop_bit_error; 
+    wire frame_error; 
     
     wire [31:0] temp_data;
     wire [5:0] temp_state;
@@ -49,7 +49,7 @@ module deserializer_test(
         .data_out_A( data_out_A ),
         .data_out_B(data_out_B),
         .ack(ack_test),
-        .frame_error(stop_bit_error),
+        .frame_error(frame_error),
         
         .opcode(opcode_test),
         .crc(crc_test),
@@ -76,6 +76,11 @@ module deserializer_test(
     reg [FRAME_SIZE:0]serial_template_1 [FRAME_NUMBER:0];
     reg [FRAME_SIZE:0]serial_template_2 [FRAME_NUMBER:0]; 
     reg [FRAME_SIZE:0]serial_template_3 [FRAME_NUMBER:0]; 
+    reg [FRAME_SIZE:0]serial_template_4 [FRAME_NUMBER:0]; 
+    reg [FRAME_SIZE:0]serial_template_5 [FRAME_NUMBER:0];
+    reg [FRAME_SIZE:0]serial_template_6 [FRAME_NUMBER:0]; 
+    reg [FRAME_SIZE:0]serial_template_7 [FRAME_NUMBER:0]; 
+    reg [FRAME_SIZE+1:0]serial_template_8 [FRAME_NUMBER:0]; 
     // DATA FRAMES 
     
     initial
@@ -116,6 +121,66 @@ module deserializer_test(
         serial_template_3[6]  = 11'b0_0_1110_1001_1; // valid frame 
         serial_template_3[7]  = 11'b0_0_0100_0000_1; // valid frame 
         serial_template_3[8]  = 11'b0_1_1_001_0110_1; // valid frame
+                
+        //TEST 4 ARRAYS INIT
+        
+        serial_template_4[0]  = 11'b0_0_0001_1101_1; // valid frame
+        serial_template_4[1]  = 11'b0_0_0100_1010_1; // valid frame
+        serial_template_4[2]  = 11'b0_0_1001_0100_1; // valid frame 
+        serial_template_4[3]  = 11'b0_0_0001_0010_1; // valid frame 
+        serial_template_4[4]  = 11'b0_0_0011_1001_1; // valid frame 
+        serial_template_4[5]  = 11'b0_0_1011_1100_1; // valid frame 
+        serial_template_4[6]  = 11'b0_0_1110_1001_1; // valid frame 
+        serial_template_4[7]  = 11'b0_0_0100_0000_1; // valid frame 
+        serial_template_4[8]  = 11'b0_0_1_001_0110_1; // invalid command frame
+        
+        // TEST 5 ARRAYS INIT - too few frames
+    
+        serial_template_5[0] = 11'b0_0_1010_1010_1; // valid frame
+        serial_template_5[1] = 11'b0_0_1111_0000_1; // valid frame
+        serial_template_5[2] = 11'b0_0_1100_1100_1; // valid frame 
+        serial_template_5[3] = 11'b0_0_0011_0101_1; // valid frame 
+        serial_template_5[4] = 11'b0_0_1001_0101_1; // valid frame 
+        serial_template_5[5] = 11'b0_0_0000_0101_1; // valid frame 
+        serial_template_5[6] = 11'b0_0_0001_0100_1; // valid frame  
+        serial_template_5[7] = 11'b0_1_1_000_1010_1; // valid frame
+        
+        //TEST 6 ARRAYS INIT 
+        
+        serial_template_6[0]  = 11'b0_0_1010_1010_0; // invalid stop bit
+        serial_template_6[1]  = 11'b0_0_1111_0010_1; // valid frame
+        serial_template_6[2]  = 11'b0_0_1101_1100_1; // valid frame 
+        serial_template_6[3]  = 11'b0_0_1011_0101_1; // valid frame 
+        serial_template_6[4]  = 11'b0_0_1001_0101_1; // valid frame 
+        serial_template_6[5]  = 11'b0_0_1000_0101_1; // valid frame 
+        serial_template_6[6]  = 11'b0_0_0101_0100_1; // valid frame 
+        serial_template_6[7]  = 11'b0_0_1010_1011_1; // valid frame 
+        serial_template_6[8]  = 11'b0_1_0_101_1011_1; // invalid command frame
+               
+        //TEST 7 ARRAYS INIT
+        
+        serial_template_7[0]  = 11'b0_0_0001_1101_1; // valid frame
+        serial_template_7[1]  = 11'b0_0_0100_1010_1; // valid frame
+        serial_template_7[2]  = 11'b0_0_1001_0100_1; // valid frame 
+        serial_template_7[3]  = 11'b0_0_0001_0010_1; // valid frame 
+        serial_template_7[4]  = 11'b0_1_0011_1001_1; // invalid data frame 
+        serial_template_7[5]  = 11'b0_0_1011_1100_1; // valid frame 
+        serial_template_7[6]  = 11'b0_0_1110_1001_1; // valid frame 
+        serial_template_7[7]  = 11'b0_0_0100_0000_1; // valid frame 
+        serial_template_7[8]  = 11'b0_1_1_001_0110_1; // valid frame
+                
+        //TEST 8 ARRAYS INIT - too many frames
+        
+        serial_template_8[0]  = 11'b0_0_0001_1101_1; // valid frame
+        serial_template_8[1]  = 11'b0_0_0100_1010_1; // valid frame
+        serial_template_8[2]  = 11'b0_0_1001_0100_1; // valid frame 
+        serial_template_8[3]  = 11'b0_0_0001_0010_1; // valid frame 
+        serial_template_8[4]  = 11'b0_0_0011_1001_1; // valid frame 
+        serial_template_8[5]  = 11'b0_0_1011_1100_1; // valid frame 
+        serial_template_8[6]  = 11'b0_0_1110_1001_1; // valid frame 
+        serial_template_8[7]  = 11'b0_0_0100_0000_1; // valid frame 
+        serial_template_8[8]  = 11'b0_0_0100_0000_1; // additional valid frame
+        serial_template_8[9]  = 11'b0_1_1_001_0110_1; // valid command frame
     
     end   
     
@@ -208,8 +273,106 @@ module deserializer_test(
                 
         if(( opcode_test == serial_template_3[8][7:5] ) && ( crc_test == serial_template_3[8][4:1])) $display("CMD TEST 3 PASSED");
         else $display("CMD TEST 3 FAILED");
-               
-                   
+        
+        
+        
+        // TEST 4        
+                
+        for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+            #CLOCK_PERIOD $display("TEST 4, serial data in: %b", serial_template_4[j][8:1]);
+            for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                serial_data = serial_template_4[j][i];
+                #BIT_SAMPLING_CYCLES;         
+                            
+            end           
+        end                
+        
+        if( frame_error == 1) begin
+            reset = 1;   
+            #CLOCK_PERIOD reset = 0;        
+            $display("TEST 4 PASSED - ERROR EXPECTED");
+        end 
+        else 
+            $display("TEST 4 FAILED - ERROR EXPECTED");
+            
+            
+        // TEST 5        
+                    
+            for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+                #CLOCK_PERIOD $display("TEST 5, serial data in: %b", serial_template_5[j][8:1]);
+                for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                    serial_data = serial_template_5[j][i];
+                    #BIT_SAMPLING_CYCLES;         
+                            
+                end           
+            end                
+            
+            if( frame_error == 1) begin
+                reset = 1;   
+                #CLOCK_PERIOD reset = 0;        
+                $display("TEST 5 PASSED - ERROR EXPECTED");
+            end 
+            else 
+                $display("TEST 5 FAILED - ERROR EXPECTED");  
+                
+                          
+        // TEST 6        
+                        
+                for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+                    #CLOCK_PERIOD $display("TEST 6, serial data in: %b", serial_template_6[j][8:1]);
+                    for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                        serial_data = serial_template_6[j][i];
+                        #BIT_SAMPLING_CYCLES;         
+                          
+                    end           
+                end                
+                
+                if( frame_error == 1) begin
+                    reset = 1;   
+                    #CLOCK_PERIOD reset = 0;        
+                    $display("TEST 6 PASSED - ERROR EXPECTED");
+                end 
+                else 
+                    $display("TEST 6 FAILED - ERROR EXPECTED");            
+     
+        // TEST 7        
+                            
+                    for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+                        #CLOCK_PERIOD $display("TEST 7, serial data in: %b", serial_template_7[j][8:1]);
+                        for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                            serial_data = serial_template_7[j][i];
+                            #BIT_SAMPLING_CYCLES;         
+                                     
+                        end           
+                    end                
+                    
+                    if( frame_error == 1) begin
+                        reset = 1;   
+                        #CLOCK_PERIOD reset = 0;        
+                        $display("TEST 7 PASSED - ERROR EXPECTED");
+                    end 
+                    else 
+                        $display("TEST 7 FAILED - ERROR EXPECTED");     
+     
+
+        // TEST 8        
+                
+        for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+            #CLOCK_PERIOD $display("TEST 8, serial data in: %b", serial_template_8[j][8:1]);
+            for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                serial_data = serial_template_8[j][i];
+                #BIT_SAMPLING_CYCLES;         
+            end           
+        end                
+        
+        if( frame_error == 1) begin
+            reset = 1;   
+            #CLOCK_PERIOD reset = 0;        
+            $display("TEST 8 PASSED - ERROR EXPECTED");
+        end 
+        else 
+            $display("TEST 8 FAILED - ERROR EXPECTED");
+                                          
         $finish;
     end
     

@@ -229,3 +229,11 @@ close_sim
 launch_simulation
 source deserializer_test.tcl
 run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
+close_sim
+launch_simulation
+source deserializer_test.tcl
+run all
