@@ -3,9 +3,7 @@ Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
 Running: D:/xilinx/Vivado/2017.4/bin/unwrapped/win64.o/xelab.exe -wto 491a1b2d2f60443ba80b70f49f428efd --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot deserializer_test_behav xil_defaultlib.deserializer_test xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-278] actual bit length 8 differs from formal bit length 32 for port parallel_data_A [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:57]
 WARNING: [VRFC 10-278] actual bit length 6 differs from formal bit length 4 for port des_state [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:59]
-WARNING: [VRFC 10-278] actual bit length 4 differs from formal bit length 6 for port bit_counter [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v:60]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

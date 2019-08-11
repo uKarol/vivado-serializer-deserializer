@@ -33,7 +33,7 @@ module deserializer_core_32(
     
     output reg [31:0] parallel_data_A,
     output reg [3:0] oversample_counter,
-    output reg [3:0]des_state,
+    output reg [3:0] des_state,
     output reg [5:0] bit_counter
     );
     
