@@ -16262,3 +16262,484 @@ selectButton(PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN_ALL, "simulati
 // TclEventType: SIMULATION_UPDATE_OBJECT_TREE
 // TclEventType: SIMULATION_STOPPED
 // TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 136 MB. Current time: 8/11/19 11:12:46 PM CEST
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// Elapsed time: 3035 seconds
+selectButton(PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN_ALL, "simulation_live_run_all"); // B (f, cj)
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN_ALL
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_CLEAR_CURRENT_LINE
+// Tcl Message: run all 
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+selectButton(PAResourceCommand.PACommandNames_SIMULATION_LIVE_BREAK, "simulation_live_break"); // B (f, cj)
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_LIVE_BREAK
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: SIMULATION_CURRENT_SCOPE_CHANGED
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: SIMULATION_STOPPED
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// Tcl Message: run: Time (s): cpu = 00:00:11 ; elapsed = 00:00:06 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+selectButton(PAResourceCommand.PACommandNames_SIMULATION_RELAUNCH, "simulation_relaunch"); // B (f, cj)
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_RELAUNCH
+// b (cj):  Relaunch Simulation : addNotify
+// TclEventType: SIMULATION_MODEL_ABOUT_TO_CLOSE
+// Tcl Message: relaunch_sim 
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_MODEL_RELOADED
+// TclEventType: SIMULATION_CLEAR_CURRENT_LINE
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_UPDATE_SCOPE_TREE
+// TclEventType: SIMULATION_CURRENT_SCOPE_CHANGED
+// TclEventType: LAUNCH_SIM
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Tcl Message: INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' INFO: [SIM-utils-51] Simulation object is 'sim_1' INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'... INFO: [USF-XSim-97] Finding global include files... INFO: [USF-XSim-98] Fetching design files from 'sim_1'... INFO: [USF-XSim-2] XSim::Compile design INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' 
+// Tcl Message: "xvlog --incr --relax -prj deserializer_test_vlog.prj" 
+// TclEventType: LAUNCH_SIM
+// Tcl Message: INFO: [USF-XSim-69] 'compile' step finished in '4' seconds INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' INFO: [USF-XSim-3] XSim::Elaborate design INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' 
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// Tcl Message: run_program: Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// Tcl Message: INFO: [USF-XSim-69] 'elaborate' step finished in '6' seconds 
+// Tcl Message: launch_simulation: Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 1017.289 ; gain = 0.000 Vivado Simulator 2017.4 
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_MODEL_ABOUT_TO_CLOSE
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_MODEL_RELOADED
+// TclEventType: SIMULATION_DELETE_ALL_BREAKPOINTS
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_UPDATE_SCOPE_TREE
+// TclEventType: SIMULATION_CURRENT_SCOPE_CHANGED
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_CLEAR_CURRENT_LINE
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: SIMULATION_CURRENT_SCOPE_CHANGED
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// Tcl Message: Time resolution is 1 ps TEST 1, serial data in: 10101010 
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// Tcl Message: relaunch_sim: Time (s): cpu = 00:00:01 ; elapsed = 00:00:16 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// 'a' command handler elapsed time: 16 seconds
+// Elapsed time: 16 seconds
+dismissDialog("Relaunch Simulation"); // b (cj)
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 136 MB. Current time: 8/11/19 11:42:47 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 136 MB. Current time: 8/12/19 2:46:26 AM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 137 MB. Current time: 8/12/19 4:14:57 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 137 MB. Current time: 8/12/19 5:04:12 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 136 MB. Current time: 8/12/19 5:34:14 PM CEST
+// Elapsed time: 64952 seconds
+selectCodeEditor("deserializer_test.v", 159, 259); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 199, 234); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 207, 257); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 293, 337); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 548, 220); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_test.v", 'c'); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 589, 429); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_test.v", 'v'); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 103, 408); // cd (w, cj)
+// Elapsed time: 14 seconds
+selectCodeEditor("deserializer_test.v", 176, 450); // cd (w, cj)
+// Elapsed time: 17 seconds
+selectCodeEditor("deserializer_test.v", 428, 416); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 428, 416, false, false, false, false, true); // cd (w, cj) - Double Click
+selectCodeEditor("deserializer_test.v", 428, 416); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_test.v", 'c'); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 472, 438); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_test.v", 'v'); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 57, 454); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 272, 452); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 492, 347); // cd (w, cj)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed time: 19 seconds
+selectCodeEditor("deserializer_test.v", 320, 483); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_test.v", 'c'); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 213, 516); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 398, 449); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_test.v", 'v'); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 107, 213); // cd (w, cj)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// Elapsed time: 74 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Simulation, Run Simulation]", 10, false); // u (O, cj)
+// TclEventType: DG_GRAPH_GENERATED
+expandTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug]", 6); // u (O, cj)
+selectMenuItem(PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL, "Run Behavioral Simulation"); // ac (ai, cj)
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL
+// TclEventType: WAVEFORM_CLOSE_WCFG
+// TclEventType: SIMULATION_CLOSE_SIMULATION
+// e (cj):  Run Simulation : addNotify
+// Elapsed time: 21 seconds
+selectButton("PAResourceQtoS.SimulationRun_SIMULATION_ALREADY_RUNNING_DO_YOU_Yes", "Yes"); // JButton (A, G)
+// Tcl Message: close_sim 
+// Tcl Message: INFO: [Simtcl 6-16] Simulation closed 
+// Tcl Message: close_sim: Time (s): cpu = 00:00:02 ; elapsed = 00:00:17 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// TclEventType: LAUNCH_SIM
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Tcl Message: launch_simulation 
+// Tcl Message: INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' INFO: [SIM-utils-51] Simulation object is 'sim_1' INFO: [SIM-utils-54] Inspecting design source files for 'deserializer_test' in fileset 'sim_1'... INFO: [USF-XSim-97] Finding global include files... INFO: [USF-XSim-98] Fetching design files from 'sim_1'... INFO: [USF-XSim-2] XSim::Compile design INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' 
+// Tcl Message: "xvlog --incr --relax -prj deserializer_test_vlog.prj" 
+// Tcl Message: INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/deserializer_core_32.v" into library xil_defaultlib INFO: [VRFC 10-311] analyzing module deserializer_core_32 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" into library xil_defaultlib INFO: [VRFC 10-311] analyzing module deserializer_test 
+// TclEventType: LAUNCH_SIM_LOG
+// Tcl Message: run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:05 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// Tcl Message: INFO: [USF-XSim-69] 'compile' step finished in '5' seconds INFO: [USF-XSim-3] XSim::Elaborate design INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' 
+// Tcl Message: Built simulation snapshot deserializer_test_behav 
+// Tcl Message:  ****** Webtalk v2017.4 (64-bit)   **** SW Build 2086221 on Fri Dec 15 20:55:39 MST 2017   **** IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017     ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.  source C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim/xsim.dir/deserializer_test_behav/webtalk/xsim_webtalk.tcl -notrace 
+// TclEventType: LAUNCH_SIM
+// Tcl Message: INFO: [Common 17-186] 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim/xsim.dir/deserializer_test_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Mon Aug 12 17:39:55 2019. For additional details about this file, please refer to the WebTalk help file at D:/xilinx/Vivado/2017.4/doc/webtalk_introduction.html. webtalk_transmit: Time (s): cpu = 00:00:00 ; elapsed = 00:00:06 . Memory (MB): peak = 51.281 ; gain = 0.840 INFO: [Common 17-206] Exiting Webtalk at Mon Aug 12 17:39:55 2019... 
+// Tcl Message: run_program: Time (s): cpu = 00:00:01 ; elapsed = 00:00:26 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// Tcl Message: INFO: [USF-XSim-69] 'elaborate' step finished in '26' seconds INFO: [USF-XSim-4] XSim::Simulate design INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.sim/sim_1/behav/xsim' INFO: [USF-XSim-98] *** Running xsim 
+// Tcl Message:    with args "deserializer_test_behav -key {Behavioral:sim_1:Functional:deserializer_test} -tclbatch {deserializer_test.tcl} -log {simulate.log}" 
+// Tcl Message: INFO: [USF-XSim-8] Loading simulator feature 
+// Tcl Message: Vivado Simulator 2017.4 
+// TclEventType: SIMULATION_CREATE_SIMULATION_OBJECT
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// Tcl Message: Time resolution is 1 ps 
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: WAVEFORM_UPDATE_TITLE
+// TclEventType: WAVEFORM_OPEN_WCFG
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: WAVEFORM_OPEN_WCFG
+// Waveform: addNotify
+// Tcl Message: source deserializer_test.tcl 
+// TclEventType: WAVEFORM_MODEL_EVENT
+// Tcl Message: # set curr_wave [current_wave_config] # if { [string length $curr_wave] == 0 } { #   if { [llength [get_objects]] > 0} { #     add_wave / #     set_property needs_save false [current_wave_config] #   } else { #      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console." #   } # } 
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_MODEL_EVENT
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 139 MB. Current time: 8/12/19 5:40:02 PM CEST
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: WAVEFORM_UPDATE_TITLE
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_CLEAR_CURRENT_LINE
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: SIMULATION_CURRENT_SCOPE_CHANGED
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// Tcl Message: # run 1000ns 
+// Tcl Message: TEST 1, serial data in: 10101010 
+// Tcl Message: xsim: Time (s): cpu = 00:00:11 ; elapsed = 00:00:07 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// Tcl Message: INFO: [USF-XSim-96] XSim completed. Design snapshot 'deserializer_test_behav' loaded. INFO: [USF-XSim-97] XSim simulation ran for 1000ns 
+// Tcl Message: launch_simulation: Time (s): cpu = 00:00:13 ; elapsed = 00:00:40 . Memory (MB): peak = 1017.289 ; gain = 0.000 
+// 'd' command handler elapsed time: 61 seconds
+// Elapsed time: 40 seconds
+dismissDialog("Run Simulation"); // e (cj)
+// Elapsed time: 1178 seconds
+selectButton(PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN_ALL, "simulation_live_run_all"); // B (f, cj)
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN_ALL
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// TclEventType: SIMULATION_CLEAR_CURRENT_LINE
+// Tcl Message: run all 
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: WAVEFORM_UPDATE_COMMANDS
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: WAVEFORM_MODEL_EVENT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: SIMULATION_UPDATE_LATEST_TIME
+// TclEventType: SIMULATION_CURRENT_SCOPE_CHANGED
+// TclEventType: SIMULATION_UPDATE_OBJECT_TREE
+// TclEventType: SIMULATION_STOPPED
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// Tcl Message: $finish called at time : 143420 ns : File "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/deserializer_test.v" Line 419 
+// TclEventType: SIMULATION_UPDATE_SIMULATION_STATE
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 137 MB. Current time: 8/12/19 6:10:04 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 137 MB. Current time: 8/12/19 6:40:04 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 137 MB. Current time: 8/12/19 7:10:04 PM CEST
+// Elapsed time: 4915 seconds
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // B
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, Add Sources]", 2, false); // u (O, cj)
+// Run Command: PAResourceCommand.PACommandNames_ADD_SOURCES
+// c (cj): Add Sources: addNotify
+// Elapsed time: 11 seconds
+selectButton("NEXT", "Next >"); // JButton (h, c)
+selectButton(PAResourceQtoS.SrcChooserPanel_CREATE_FILE, "Create File"); // a (C, c)
+// F (c): Create Source File: addNotify
+// Elapsed time: 13 seconds
+setText(PAResourceAtoD.CreateSrcFileDialog_FILE_NAME, "serializer_core"); // X (N, F)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (F)
+dismissDialog("Create Source File"); // F (c)
+selectButton("FINISH", "Finish"); // JButton (h, c)
+// 'h' command handler elapsed time: 30 seconds
+dismissDialog("Add Sources"); // c (cj)
+// Tcl Message: close [ open C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/serializer_core.v w ] 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// bs (cj):  Add Sources  : addNotify
+// Tcl Message: add_files C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sources_1/new/serializer_core.v 
+// I (cj): Define Module: addNotify
+dismissDialog("Add Sources"); // bs (cj)
+selectTable(PAResourceAtoD.DefineModulesDialog_DEFINE_MODULES_AND_SPECIFY_IO_PORTS, " ; input ; false ; 0 ; 0", 0, (String) null, 0); // ab (O, I)
+editTable(PAResourceAtoD.DefineModulesDialog_DEFINE_MODULES_AND_SPECIFY_IO_PORTS, "clk", 0, "Port Name", 0); // ab (O, I)
+editTable(PAResourceAtoD.DefineModulesDialog_DEFINE_MODULES_AND_SPECIFY_IO_PORTS, "rst", 1, "Port Name", 0); // ab (O, I)
+selectTable(PAResourceAtoD.DefineModulesDialog_DEFINE_MODULES_AND_SPECIFY_IO_PORTS, "rst ; input ; false ; 0 ; 0", 1, "rst", 0); // ab (O, I)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (I)
+editTable(PAResourceAtoD.DefineModulesDialog_DEFINE_MODULES_AND_SPECIFY_IO_PORTS, "rst", 1, "Port Name", 0); // ab (O, I)
+// TclEventType: FILE_SET_CHANGE
+dismissDialog("Define Module"); // I (cj)
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_GRAPH_GENERATED
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_GRAPH_GENERATED
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 141 MB. Current time: 8/12/19 7:40:06 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 140 MB. Current time: 8/12/19 8:10:06 PM CEST
+// Elapsed time: 4173 seconds
+selectCodeEditor("deserializer_test.v", 375, 310); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 381, 378); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 255, 367); // cd (w, cj)
+selectCodeEditor("deserializer_test.v", 278, 346); // cd (w, cj)
+selectTab((HResource) null, (HResource) null, "Sources", 1); // aF (Q, cj)
+// PAPropertyPanels.initPanels (serializer_core.v) elapsed time: 0.2s
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1, serializer_core (serializer_core.v)]", 9, false); // B (D, cj)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1, serializer_core (serializer_core.v)]", 9, false, false, false, false, false, true); // B (D, cj) - Double Click
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Simulation Sources, sim_1, serializer_core (serializer_core.v)]", 9, false); // B (D, cj)
+selectCodeEditor("serializer_core.v", 89, 405); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 122, 420); // cd (w, cj)
+// Elapsed time: 32 seconds
+selectCodeEditor("serializer_core.v", 162, 469); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 55, 435); // cd (w, cj)
+// Elapsed time: 21 seconds
+selectCodeEditor("serializer_core.v", 238, 421); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 220, 432); // cd (w, cj)
+// Elapsed time: 370 seconds
+selectCodeEditor("serializer_core.v", 212, 522); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 289, 478); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 244, 465); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 149, 510); // cd (w, cj)
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 141 MB. Current time: 8/12/19 8:40:06 PM CEST
+// Elapsed time: 35 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "deserializer_test.v", 0); // k (j, cj)
+// Elapsed time: 23 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, deserializer_core_32 (deserializer_core_32.v)]", 2, false); // B (D, cj)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, deserializer_core_32 (deserializer_core_32.v)]", 2, false, false, false, false, false, true); // B (D, cj) - Double Click
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, deserializer_core_32 (deserializer_core_32.v)]", 2, false); // B (D, cj)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, deserializer_core_32 (deserializer_core_32.v)]", 2, false); // B (D, cj)
+// Elapsed time: 10 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "serializer_core.v", 2); // k (j, cj)
+selectCodeEditor("serializer_core.v", 51, 516); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 64, 432); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 23, 542); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 4, 430); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 95, 467); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 126, 483); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 63, 425); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 120, 452); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 54, 433); // cd (w, cj)
+// Elapsed time: 25 seconds
+selectCodeEditor("serializer_core.v", 284, 349); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 220, 369); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 70, 290); // cd (w, cj)
+// Elapsed time: 13 seconds
+selectCodeEditor("serializer_core.v", 136, 376); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 228, 471); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 267, 462); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 299, 452); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 97, 469); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 125, 402); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 32, 427); // cd (w, cj)
+// Elapsed time: 176 seconds
+selectCodeEditor("serializer_core.v", 218, 540); // cd (w, cj)
+// Elapsed time: 990 seconds
+selectCodeEditor("serializer_core.v", 187, 441); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 107, 280); // cd (w, cj)
+// Elapsed time: 87 seconds
+selectCodeEditor("serializer_core.v", 177, 386); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 111, 291); // cd (w, cj)
+// Elapsed time: 216 seconds
+selectCodeEditor("serializer_core.v", 222, 344); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 237, 405); // cd (w, cj)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// WARNING: HTimer (FileMgr Design Graph Update Timer) is taking too long to process. Increasing delay to 5000 ms.
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed time: 81 seconds
+selectCodeEditor("serializer_core.v", 307, 437); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 220, 454); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 230, 476); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 256, 474); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 255, 455); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 263, 494); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 263, 471); // cd (w, cj)
+// Elapsed time: 10 seconds
+selectCodeEditor("serializer_core.v", 257, 361); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 204, 364); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 224, 369); // cd (w, cj)
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 142 MB. Current time: 8/12/19 9:10:06 PM CEST
+// Elapsed time: 104 seconds
+selectCodeEditor("serializer_core.v", 328, 174); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 331, 267); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 243, 519); // cd (w, cj)
+// Elapsed time: 293 seconds
+selectCodeEditor("serializer_core.v", 254, 460); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 227, 484); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 65, 456); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 50, 497); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 20, 469); // cd (w, cj)
+// Elapsed time: 18 seconds
+selectCodeEditor("serializer_core.v", 47, 493); // cd (w, cj)
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "deserializer_core_32.v", 3); // k (j, cj)
+selectCodeEditor("deserializer_core_32.v", 157, 198); // cd (w, cj)
+typeControlKey((HResource) null, "deserializer_core_32.v", 'c'); // cd (w, cj)
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "serializer_core.v", 2); // k (j, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 89, 498); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 243, 353); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 123, 524); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 139, 504); // cd (w, cj)
+// Elapsed time: 17 seconds
+selectCodeEditor("serializer_core.v", 164, 443); // cd (w, cj)
+// Elapsed time: 22 seconds
+selectCodeEditor("serializer_core.v", 239, 481); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 195, 411); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 220, 504); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 259, 488); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 188, 497); // cd (w, cj)
+// Elapsed time: 78 seconds
+selectCodeEditor("serializer_core.v", 98, 418); // cd (w, cj)
+// Elapsed time: 11 seconds
+selectCodeEditor("serializer_core.v", 112, 462); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 125, 499); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 120, 460); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 117, 350); // cd (w, cj)
+// Elapsed time: 25 seconds
+selectCodeEditor("serializer_core.v", 193, 245); // cd (w, cj)
+// Elapsed time: 12 seconds
+selectCodeEditor("serializer_core.v", 154, 369); // cd (w, cj)
+// Elapsed time: 20 seconds
+selectCodeEditor("serializer_core.v", 413, 419); // cd (w, cj)
+// Elapsed time: 24 seconds
+selectCodeEditor("serializer_core.v", 172, 330); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 246, 374); // cd (w, cj)
+// Elapsed time: 13 seconds
+selectCodeEditor("serializer_core.v", 143, 397); // cd (w, cj)
+// Elapsed time: 10 seconds
+selectCodeEditor("serializer_core.v", 237, 386); // cd (w, cj)
+// Elapsed time: 13 seconds
+selectCodeEditor("serializer_core.v", 257, 414); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 266, 386); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 269, 405); // cd (w, cj)
+// Elapsed time: 288 seconds
+selectCodeEditor("serializer_core.v", 220, 445); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 213, 415); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 311, 296); // cd (w, cj)
+// Elapsed time: 30 seconds
+selectCodeEditor("serializer_core.v", 230, 224); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 240, 242); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'c'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 164, 322); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 102, 311); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 122, 316); // cd (w, cj)
+// Elapsed time: 16 seconds
+selectCodeEditor("serializer_core.v", 252, 307); // cd (w, cj)
+// Elapsed time: 14 seconds
+selectCodeEditor("serializer_core.v", 205, 354); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'c'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 242, 355); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 59, 365); // cd (w, cj)
+// Elapsed time: 17 seconds
+selectCodeEditor("serializer_core.v", 292, 369); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 245, 426); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 197, 263); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 97, 238); // cd (w, cj)
+// Elapsed time: 20 seconds
+selectCodeEditor("serializer_core.v", 98, 278); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 94, 294); // cd (w, cj)
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 142 MB. Current time: 8/12/19 9:40:06 PM CEST
+// Elapsed time: 1028 seconds
+selectCodeEditor("serializer_core.v", 95, 267); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 94, 266); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 271, 207); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 301, 231); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'c'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 124, 141); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 313, 412); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 297, 361); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 179, 382); // cd (w, cj)
+// Elapsed time: 11 seconds
+selectCodeEditor("serializer_core.v", 228, 384); // cd (w, cj)
+// Elapsed time: 10 seconds
+selectCodeEditor("serializer_core.v", 198, 384); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'c'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 261, 375); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 166, 401); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 166, 401, false, false, false, false, true); // cd (w, cj) - Double Click
+selectCodeEditor("serializer_core.v", 200, 401); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 200, 401); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 200, 383); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 201, 385); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 193, 382); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 335, 379); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 209, 379); // cd (w, cj)
+// Elapsed time: 15 seconds
+selectCodeEditor("serializer_core.v", 290, 320); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 189, 334); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 227, 333); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 170, 330); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'c'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 233, 336); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 235, 348); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 209, 348); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'c'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 353, 341); // cd (w, cj)
+typeControlKey((HResource) null, "serializer_core.v", 'v'); // cd (w, cj)
+selectCodeEditor("serializer_core.v", 161, 298); // cd (w, cj)
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 142 MB. Current time: 8/12/19 10:10:06 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 142 MB. Current time: 8/12/19 10:40:07 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 620 MB. GUI used memory: 142 MB. Current time: 8/12/19 11:11:45 PM CEST
+// Elapsed time: 5055 seconds
+closeMainWindow("serializer_tests - [C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.xpr] - Vivado 2017.4"); // cj
+// am (cj): Save Project: addNotify

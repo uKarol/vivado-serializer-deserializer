@@ -81,6 +81,8 @@ module deserializer_test(
     reg [FRAME_SIZE:0]serial_template_6 [FRAME_NUMBER:0]; 
     reg [FRAME_SIZE:0]serial_template_7 [FRAME_NUMBER:0]; 
     reg [FRAME_SIZE+1:0]serial_template_8 [FRAME_NUMBER:0]; 
+    reg [FRAME_SIZE:0]serial_template_9 [FRAME_NUMBER:0]; 
+
     // DATA FRAMES 
     
     initial
@@ -181,6 +183,21 @@ module deserializer_test(
         serial_template_8[7]  = 11'b0_0_0100_0000_1; // valid frame 
         serial_template_8[8]  = 11'b0_0_0100_0000_1; // additional valid frame
         serial_template_8[9]  = 11'b0_1_1_001_0110_1; // valid command frame
+        
+       //TEST 9 ARRAYS INIT
+        
+        serial_template_9[0]  = 11'b0_0_0001_1101_1; // valid frame
+        serial_template_9[1]  = 11'b0_0_0100_1010_1; // valid frame
+        serial_template_9[2]  = 11'b0_0_1001_0100_1; // valid frame 
+        serial_template_9[3]  = 11'b0_0_0001_0010_1; // valid frame 
+        serial_template_9[4]  = 11'b0_0_0011_1001_1; // valid frame 
+        serial_template_9[5]  = 11'b0_0_1011_1100_1; // valid frame 
+        serial_template_9[6]  = 11'b0_0_1110_1001_1; // valid frame 
+        serial_template_9[7]  = 11'b0_0_0100_0000_1; // valid frame 
+        serial_template_9[8]  = 11'b0_1_1_001_0110_1; // valid frame
+        
+        
+        
     
     end   
     
@@ -372,6 +389,32 @@ module deserializer_test(
         end 
         else 
             $display("TEST 8 FAILED - ERROR EXPECTED");
+            
+            
+           // TEST 9        
+                    
+            for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+                #CLOCK_PERIOD $display("TEST 9, serial data in: %b", serial_template_9[j][8:1]);
+                for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                    serial_data = serial_template_9[j][i];
+                    #BIT_SAMPLING_CYCLES;                       
+                end           
+            end                
+            
+            $display("TESTS RESULTS : ");
+            $display("opcode %b, crc %b", opcode_test, crc_test);  
+            $display("DATA A : %b", data_out_A); 
+            $display("DATA B : %b", data_out_B);           
+                     
+            if( data_out_A == {serial_template_9[0][8:1], serial_template_9[1][8:1], serial_template_9[2][8:1], serial_template_9[3][8:1] } )     $display("DATA A PASSED");  
+            else $display("TEST 9 DATA A FAILED"); 
+                    
+            if( data_out_B == {serial_template_9[4][8:1], serial_template_9[5][8:1], serial_template_9[6][8:1], serial_template_9[7][8:1] } )     $display("DATA B PASSED");
+            else $display("TEST 9 DATA B FAILED"); 
+                    
+            if(( opcode_test == serial_template_9[8][7:5] ) && ( crc_test == serial_template_9[8][4:1])) $display("CMD TEST 9 PASSED");
+            else $display("CMD TEST 9 FAILED");    
+            
                                           
         $finish;
     end
