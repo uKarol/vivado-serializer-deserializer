@@ -27,6 +27,9 @@ module serializer_core(
     input wire [31:0]data_in,
     input wire [2:0]crc_in,
     input wire [3:0]alu_flags_in,
+    input wire data_err_in,
+    input wire crc_err_in,
+    input wire op_err_in,
     output reg serial_out,
     output reg ack,
     output reg [4:0] bit_counter,
@@ -55,6 +58,8 @@ module serializer_core(
     reg [31:0]internal_data_nxt;
     reg [2:0]internal_crc_nxt;
     reg [3:0]internal_alu_flags_nxt;
+    reg [5:0] internal_errors;
+    reg [5:0] internal_errors_nxt;
     
     
     localparam 
@@ -70,7 +75,7 @@ module serializer_core(
         ERR_FLAGS_SENDING = 4'b1001,
         PARITY_SENDING = 4'b1010,
         STOP_SENDING = 4'b1011,
-        ERROR_SENDING = 4'b1100;    
+        ERROR_STOP = 4'b1100;    
     
 
 always @(posedge clk or posedge rst) begin
@@ -100,6 +105,8 @@ always @(posedge clk or posedge rst) begin
         internal_data_nxt      <= 0;
         internal_crc_nxt       <= 0; 
         internal_alu_flags_nxt <= 0;
+        internal_errors        <= 0;
+        internal_errors_nxt    <= 0;
         
     end 
     
@@ -117,9 +124,10 @@ always @(posedge clk or posedge rst) begin
         frame_counter          <= frame_counter_nxt;
 
         // registers
-        internal_data          <=  internal_data_nxt;
+        internal_data          <= internal_data_nxt;
         internal_crc           <= internal_crc_nxt;
         internal_alu_flags     <= internal_alu_flags_nxt;
+        internal_errors        <= internal_errors_nxt;
     
     end
     
@@ -143,9 +151,10 @@ always @* begin
             internal_data_nxt = internal_data;
             internal_crc_nxt = internal_crc;
             internal_alu_flags_nxt = internal_alu_flags;
+            internal_errors_nxt = 0;
             
             // NEXT_STATE
-            if(req == 1) state_nxt = LATCH_DATA;
+            if((req == 1)||(crc_err_in|op_err_in|data_err_in)) state_nxt = LATCH_DATA;
             else state_nxt = IDLE;            
          end
          
@@ -163,6 +172,7 @@ always @* begin
              internal_data_nxt = data_in;
              internal_crc_nxt = crc_in;
              internal_alu_flags_nxt = alu_flags_in;
+             internal_errors_nxt = {crc_err_in,op_err_in,data_err_in, crc_err_in,op_err_in,data_err_in};
              
              // NEXT_STATE 
              state_nxt = START_SENDING;            
@@ -182,9 +192,10 @@ always @* begin
               internal_data_nxt = internal_data;
               internal_crc_nxt = internal_crc;
               internal_alu_flags_nxt = internal_alu_flags;
+              internal_errors_nxt = internal_errors;
               
               // NEXT_STATE             
-              if(frame_counter < 4 ) state_nxt = DATA_BIT_SENDING;
+              if((frame_counter < 4 )&&(internal_errors == 0) )state_nxt = DATA_BIT_SENDING;
               else state_nxt = CTL_BIT_SENDING;
                                      
            end
@@ -203,6 +214,7 @@ always @* begin
                internal_data_nxt = internal_data;
                internal_crc_nxt = internal_crc;
                internal_alu_flags_nxt = internal_alu_flags;
+               internal_errors_nxt = internal_errors;
                
                // NEXT_STATE
                state_nxt = DATA_BITS_SENDING;            
@@ -222,6 +234,7 @@ always @* begin
                internal_data_nxt = internal_data<<1;
                internal_crc_nxt = internal_crc;
                internal_alu_flags_nxt = internal_alu_flags;
+                internal_errors_nxt = internal_errors;
                
                // NEXT_STATE
                if(bit_counter == 7) state_nxt = STOP_SENDING;
@@ -242,6 +255,7 @@ always @* begin
                 internal_data_nxt = internal_data;
                 internal_crc_nxt = internal_crc;
                 internal_alu_flags_nxt = internal_alu_flags;
+                 internal_errors_nxt = internal_errors;
                 
                 // NEXT_STATE
                 if(frame_counter < 4) state_nxt = START_SENDING;  
@@ -264,6 +278,7 @@ always @* begin
                  internal_data_nxt = internal_data;
                  internal_crc_nxt = internal_crc;
                  internal_alu_flags_nxt = internal_alu_flags;
+                 internal_errors_nxt = internal_errors;
                  
                  // NEXT_STATE
                  state_nxt = CTL_FIRST_BIT_SENDING;            
@@ -284,9 +299,11 @@ always @* begin
                   internal_data_nxt = internal_data;
                   internal_crc_nxt = internal_crc;
                   internal_alu_flags_nxt = internal_alu_flags;
+                  internal_errors_nxt = internal_errors;
                   
                   // NEXT_STATE
-                  state_nxt = FLAGS_SENDING;            
+                  if(internal_errors!=0) state_nxt = ERR_FLAGS_SENDING;
+                  else state_nxt = FLAGS_SENDING;            
                end 
               
               FLAGS_SENDING:
@@ -303,6 +320,7 @@ always @* begin
                 internal_data_nxt = internal_data;
                 internal_crc_nxt = internal_crc;
                 internal_alu_flags_nxt = internal_alu_flags<<1;
+                internal_errors_nxt = internal_errors;
               
                 // NEXT_STATE
                 if(bit_counter == 3) state_nxt = CRC_SENDING;
@@ -323,11 +341,74 @@ always @* begin
                 internal_data_nxt = internal_data;
                 internal_crc_nxt = internal_crc<<1;
                 internal_alu_flags_nxt = internal_alu_flags;
+                internal_errors_nxt = internal_errors;
               
                 // NEXT_STATE
                 if(bit_counter == 6) state_nxt = STOP_SENDING;
                 else state_nxt = CRC_SENDING;            
               end 
+              
+              ERR_FLAGS_SENDING:
+              begin
+                // external signal nxt
+                serial_out_nxt = internal_errors[5];
+                ack_nxt = 0;
+              
+                // counters 
+                bit_counter_nxt = bit_counter + 1;
+                frame_counter_nxt = frame_counter;
+              
+                // internal signals 
+                internal_data_nxt = internal_data;
+                internal_crc_nxt = internal_crc;
+                internal_alu_flags_nxt = internal_alu_flags;
+                internal_errors_nxt = internal_errors<<1;
+              
+                // NEXT_STATE
+                if(bit_counter == 5) state_nxt = PARITY_SENDING;
+                else state_nxt = ERR_FLAGS_SENDING;            
+              end 
+              
+              PARITY_SENDING:
+              begin
+                  // external signal nxt
+                  serial_out_nxt = (^internal_errors)^1;
+                  ack_nxt = 0;
+                  
+                  // counters 
+                  bit_counter_nxt = 0;
+                  frame_counter_nxt = frame_counter;
+                  
+                  // internal signals 
+                  internal_data_nxt = internal_data;
+                  internal_crc_nxt = internal_crc;
+                  internal_alu_flags_nxt = internal_alu_flags;
+                  internal_errors_nxt = internal_errors;
+                  
+               // NEXT_STATE
+               state_nxt = ERROR_STOP;            
+               end
+               
+               
+               ERROR_STOP:
+               begin
+                   // external signal nxt
+                   serial_out_nxt = 1;
+                   ack_nxt = 0;
+                   
+                   // counters 
+                   bit_counter_nxt = 0;
+                   frame_counter_nxt = frame_counter;
+                   
+                   // internal signals 
+                   internal_data_nxt = internal_data;
+                   internal_crc_nxt = internal_crc;
+                   internal_alu_flags_nxt = internal_alu_flags;
+                   internal_errors_nxt = internal_errors;
+                   
+                   // NEXT_STATE
+                   state_nxt = ERROR_STOP;            
+                end
               
     
     endcase
