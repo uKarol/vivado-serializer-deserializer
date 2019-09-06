@@ -33,6 +33,7 @@ module deserializer_test(
     wire [31:0] data_out_B;
     wire ack_test;
     wire frame_error; 
+    wire crc_error;
     
     wire [31:0] temp_data;
     wire [5:0] temp_state;
@@ -50,14 +51,9 @@ module deserializer_test(
         .data_out_B(data_out_B),
         .ack(ack_test),
         .frame_error(frame_error),
-        
+        .crc_error(crc_error),
         .opcode(opcode_test),
-        .crc(crc_test),
-        
-        .parallel_data_A(temp_data),
-        .oversample_counter(ovs_ctr),
-        .des_state(temp_state),
-        .bit_counter(bit_ctr)
+        .crc(crc_test)
 
     );
     
@@ -110,7 +106,7 @@ module deserializer_test(
         serial_template_2[5]  = 11'b0_0_1000_0101_1; // valid frame 
         serial_template_2[6]  = 11'b0_0_0101_0100_1; // valid frame 
         serial_template_2[7]  = 11'b0_0_1010_1011_1; // valid frame 
-        serial_template_2[8]  = 11'b0_1_1_101_1011_1; // valid frame
+        serial_template_2[8]  = 11'b0_1_1_101_1010_1; // valid frame
                
         //TEST 3 ARRAYS INIT
         
@@ -122,7 +118,7 @@ module deserializer_test(
         serial_template_3[5]  = 11'b0_0_1011_1100_1; // valid frame 
         serial_template_3[6]  = 11'b0_0_1110_1001_1; // valid frame 
         serial_template_3[7]  = 11'b0_0_0100_0000_1; // valid frame 
-        serial_template_3[8]  = 11'b0_1_1_001_0110_1; // valid frame
+        serial_template_3[8]  = 11'b0_1_1_001_1110_1; // valid frame
                 
         //TEST 4 ARRAYS INIT
         
@@ -206,7 +202,7 @@ module deserializer_test(
     begin 
          clock = 1; 
          reset = 1;
-         #1 reset = 0;
+         #CLOCK_PERIOD reset = 0;
     end 
        
        // clock generation  
@@ -228,7 +224,8 @@ module deserializer_test(
                 serial_data = serial_template_1[j][i];
                 #BIT_SAMPLING_CYCLES;                       
             end           
-        end          
+        end     
+        #CLOCK_PERIOD;     
         $display("TESTS RESULTS : ");
         $display("DATA A : %b", data_out_A); 
         $display("DATA B : %b", data_out_B);       
@@ -252,7 +249,7 @@ module deserializer_test(
                 #BIT_SAMPLING_CYCLES;                       
             end           
         end                
-
+         #CLOCK_PERIOD;  
         $display("TESTS RESULTS : ");
         $display("opcode %b, crc %b", opcode_test, crc_test);  
         $display("DATA A : %b", data_out_A); 
@@ -276,7 +273,7 @@ module deserializer_test(
                 #BIT_SAMPLING_CYCLES;                       
             end           
         end                
-        
+         #CLOCK_PERIOD;  
         $display("TESTS RESULTS : ");
         $display("opcode %b, crc %b", opcode_test, crc_test);  
         $display("DATA A : %b", data_out_A); 
@@ -303,7 +300,7 @@ module deserializer_test(
                             
             end           
         end                
-        
+         #CLOCK_PERIOD;  
         if( frame_error == 1) begin
             reset = 1;   
             #CLOCK_PERIOD reset = 0;        
@@ -323,7 +320,7 @@ module deserializer_test(
                             
                 end           
             end                
-            
+             #CLOCK_PERIOD;  
             if( frame_error == 1) begin
                 reset = 1;   
                 #CLOCK_PERIOD reset = 0;        
@@ -343,7 +340,7 @@ module deserializer_test(
                           
                     end           
                 end                
-                
+                 #CLOCK_PERIOD;  
                 if( frame_error == 1) begin
                     reset = 1;   
                     #CLOCK_PERIOD reset = 0;        
@@ -362,7 +359,7 @@ module deserializer_test(
                                      
                         end           
                     end                
-                    
+                     #CLOCK_PERIOD;  
                     if( frame_error == 1) begin
                         reset = 1;   
                         #CLOCK_PERIOD reset = 0;        
@@ -381,7 +378,7 @@ module deserializer_test(
                 #BIT_SAMPLING_CYCLES;         
             end           
         end                
-        
+         #CLOCK_PERIOD;  
         if( frame_error == 1) begin
             reset = 1;   
             #CLOCK_PERIOD reset = 0;        
@@ -400,7 +397,7 @@ module deserializer_test(
                     #BIT_SAMPLING_CYCLES;                       
                 end           
             end                
-            
+             #CLOCK_PERIOD;  
             $display("TESTS RESULTS : ");
             $display("opcode %b, crc %b", opcode_test, crc_test);  
             $display("DATA A : %b", data_out_A); 
