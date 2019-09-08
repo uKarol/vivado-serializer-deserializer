@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module deserializer_core_32(
+module mtm_Alu_deserializer (
     input wire clk,
     input wire rst,
     input wire serial_in,
@@ -103,7 +103,7 @@ module deserializer_core_32(
        
     always @( posedge clk)                                           // POSEDGE REGISTERS
     begin 
-        if(rst == 1)                                                                 // RESET 
+        if(rst == 0)                                                                 // RESET 
         begin
             // out signals 
             data_out_A <= 0;

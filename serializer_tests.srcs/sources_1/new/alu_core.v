@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module alu_core(
+module  mtm_Alu_core(
         input wire clk,
         input wire rst,
         input wire req,
@@ -32,7 +32,6 @@ module alu_core(
         output reg  [31:0] Result,
         output reg         OP_Err,
         output reg [3:0]  ALUFlags,
-        output wire [32:0]   sum,
         output reg [2:0]crc_out
         );
         
@@ -54,14 +53,14 @@ module alu_core(
     
         wire  neg, zero, carry, overflow;
         wire [31:0] condinvb;
-        // wire [32:0]   sum;
+        wire [32:0]   sum;
     
         assign condinvb = ALUControl[0] ? ~b : b;
         assign sum      = a + (condinvb + ALUControl[0]);
         
         
         always @(posedge clk) begin
-            if(rst) begin    
+            if(rst==0) begin    
                 alu_state <= IDLE;
                 Result <= 0;
                 ALUFlags <= 0;

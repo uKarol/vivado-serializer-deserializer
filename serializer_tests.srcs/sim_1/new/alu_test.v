@@ -35,19 +35,11 @@ module alu_test( );
     
     wire serial_out;
 
- mtm_ALU DUT(
+ mtm_Alu DUT(
     .clk(clock),
     .rst(reset),
     .sin(serial_data),
-    .sout(serial_out),
-    // temporary
-    .result(result),
-    .crc_out(crc_test),
-    .flags_out(flag_test),
-    .data_error(frame_error),
-    .crc_error(crc_error),
-    .op_err(op_err),
-    .ack_alu(ack_alu)
+    .sout(serial_out)
     
     );
 
@@ -203,6 +195,7 @@ begin
      clock = 1; 
      reset = 1;
      #CLOCK_PERIOD reset = 0;
+     #CLOCK_PERIOD reset = 1;
 end 
    
    // clock generation  
@@ -562,9 +555,9 @@ end
             $display("UNEXPECTED_ERROR_DETECTED"); 
             UNEXPECTED_ERRORS = UNEXPECTED_ERRORS+1;
            
-            reset = 1;
-            #CLOCK_PERIOD;
             reset = 0;
+            #CLOCK_PERIOD;
+            reset = 1;
        end
   
   end
@@ -590,9 +583,9 @@ end
             end 
         
         end 
-        reset = 1;
-        #PCLK_PERIOD;
         reset = 0;
+        #PCLK_PERIOD;
+        reset = 1;
   end
   endtask
  

@@ -20,20 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module mtm_ALU(
+module mtm_Alu(
     input clk,
     input rst,
     input sin,
-    output sout,
-    // temporary
-    output wire [31:0] result,
-    output wire [2:0] crc_out,
-    output wire [3:0] flags_out,
-    output wire data_error,
-    output wire crc_error,
-    output wire op_err,
-    output wire ack_alu
-    
+    output sout
+
     );
     
     wire [31:0]data_A;
@@ -41,10 +33,16 @@ module mtm_ALU(
     wire [2:0]opcode;
     wire ack_des;
     wire ack_ser;
-    //wire data_error;
-    //wire crc_error;
+    wire data_error;
+    wire crc_error;
+    wire ack_alu;
+    wire [31:0]result;
+    wire op_err;
+    wire crc_out;
+    wire [3:0]flags_out;
     
-    deserializer_core_32 deserializer(
+    
+    mtm_Alu_deserializer u_mtm_Alu_deserializer(
         .clk(clk),
         .rst(rst),
         .serial_in(sin),
@@ -57,7 +55,7 @@ module mtm_ALU(
         
     );
     
-    alu_core alu_core(
+    mtm_Alu_core u_mtm_Alu_core(
             .clk(clk),
             .rst(rst),
             .req(ack_des),
@@ -69,12 +67,11 @@ module mtm_ALU(
             .Result(result),
             .OP_Err(op_err),
             .ALUFlags(flags_out),
-            .sum(),
             .crc_out(crc_out)
             );
     
     
-    serializer_core serializer(
+   mtm_Alu_serializer u_mtm_Alu_serializer(
         .clk(clk),
         .rst(rst),
         .req(ack_alu),

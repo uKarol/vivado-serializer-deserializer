@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module serializer_core(
+module mtm_Alu_serializer(
     input wire clk,
     input wire rst,
     input wire req,
@@ -79,7 +79,7 @@ module serializer_core(
         ERROR_STOP = 4'b1100;   
         
 always @(posedge clk) begin
-    if( rst == 1 ) begin 
+    if( rst == 0 ) begin 
         pclk <= 0;
         pclk_ctr <= 0;
     end 
@@ -90,9 +90,9 @@ always @(posedge clk) begin
 end 
     
 
-always @(posedge pclk or posedge rst) begin
+always @(posedge pclk or negedge rst) begin
     
-    if( rst == 1) begin 
+    if( rst == 0) begin 
     
         //output signal nxt 
         serial_out             <= 1;
