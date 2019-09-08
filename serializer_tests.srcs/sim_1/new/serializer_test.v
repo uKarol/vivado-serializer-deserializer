@@ -18,18 +18,24 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+// Vivado z³om 
 
 module serializer_test(
     );
     
     localparam 
         CLOCK_PERIOD = 10,
-        OVERSAMPLING_SAMPLES = 16,
+        PCLK_PERIOD = 160,
+        OVERSAMPLING_SAMPLES = 1,
         BIT_SAMPLING_CYCLES = CLOCK_PERIOD*OVERSAMPLING_SAMPLES,        
         FRAME_SIZE = 31,
-        FRAME_NUMBER = 4;
+        FRAME_NUMBER = 4,
+        TEST_IDLE = 0,
+        TEST_PROCESSING = 1,
+        FIRST_BIT_TEST = 2,
+        TEST_ERROR = 3;
     
+    reg pclk;
     reg clock;
     reg reset;
     reg req;
@@ -41,9 +47,7 @@ module serializer_test(
     reg op_error;
     wire serial_out;
     wire ack_out;
-    wire [3:0]state_test;
-    wire [4:0]bit_ctr_test;
-    wire [4:0]frame_ctr_test;
+
     
     integer i; // loop counter
     integer j;
@@ -58,7 +62,10 @@ module serializer_test(
     reg [2:0]crc_template_1 [FRAME_NUMBER:0];
     
     reg [2:0]error_template [2:0];  
+
     reg [5:0]error_frame;
+        // test variables
+
     
     serializer_core DUT(
         .clk(clock),
@@ -69,20 +76,68 @@ module serializer_test(
         .alu_flags_in(alu_flags_in),
         .serial_out(serial_out),
         .ack(ack_out),
-        .bit_counter(bit_ctr_test),
-        .frame_counter(frame_ctr_test),
-        .state(state_test),
         .data_err_in(data_error),
         .crc_err_in(crc_error),
         .op_err_in(op_error)
         );
         
+        reg [54:0]serializer_out;
+        reg [1:0]test_state;
+        reg [8:0]bit_ctr;
+        reg [2:0]errors;
+    always @(posedge pclk)
+    begin
+    
+        case(test_state)
+        TEST_IDLE:
+        begin
+            if( serial_out == 0) begin
+             test_state = FIRST_BIT_TEST;
+             serializer_out[54] = serial_out;
+             end
+            else test_state = TEST_IDLE;
+            bit_ctr = 0;
+            
+        end
+        FIRST_BIT_TEST:
+        begin 
+            bit_ctr = 0;
+            serializer_out[53] = serial_out;
+            if( serial_out == 0 ) test_state = TEST_PROCESSING;
+            else test_state = TEST_ERROR;      
+            
+        end
+        TEST_ERROR:
+        begin
+            
+            serializer_out[52-bit_ctr] = serial_out;           
+            bit_ctr = bit_ctr + 1;
+            if(bit_ctr < 10)begin
+             test_state = TEST_ERROR;
+            end 
+            else begin
+             test_state = TEST_IDLE;
+             errors = serializer_out[51:49];
+            end
+            
+        end
         
+        TEST_PROCESSING:
+        begin
+            serializer_out[52-bit_ctr] = serial_out;           
+             bit_ctr = bit_ctr + 1;
+            if(bit_ctr < 53) test_state = TEST_PROCESSING;
+            else test_state = TEST_IDLE;
+        end
+        endcase
+        
+    end
         initial 
         begin
             // TEST 1 ARRAYS INIT
             ok_bits = 0;
             failed_bits = 0;
+            
             
             error_template[0] = 3'b001;
             error_template[1] = 3'b010;
@@ -103,21 +158,7 @@ module serializer_test(
             data_template_1[3] = 32'b1110_1011_1010_1011_0001_0001_0010_1010; // valid frame
             flags_template_1[3] = 4'b0011;
             crc_template_1[3] = 3'b011;
-            //TEST 2 ARRAYS INIT
-        
-     /*       serial_template_2[0]  = 11'b0_0_1010_1010_1; // valid frame
-            serial_template_2[1]  = 11'b0_0_1111_0010_1; // valid frame
-            serial_template_2[2]  = 11'b0_0_1101_1100_1; // valid frame 
-            serial_template_2[3]  = 11'b0_0_1011_0101_1; // valid frame 
-            serial_template_2[4]  = 11'b0_1_1_101_1011_1; // valid frame*/
-               
-            //TEST 3 ARRAYS INIT
-        
-         /*   serial_template_3[0]  = 11'b0_0_0001_1101_1; // valid frame
-            serial_template_3[1]  = 11'b0_0_0100_1010_1; // valid frame
-            serial_template_3[2]  = 11'b0_0_1001_0100_1; // valid frame 
-            serial_template_3[3]  = 11'b0_0_0001_0010_1; // valid frame 
-            serial_template_3[4]  = 11'b0_1_1_001_0110_1; // valid frame*/
+
         
         end 
         
@@ -125,21 +166,32 @@ module serializer_test(
     
         initial 
         begin 
+             serializer_out = 0;
+             test_state = 0;
+             bit_ctr = 0;
              clock = 1; 
+             pclk = 1;
              reset = 1;
-             #1 reset = 0;
+             #(3*PCLK_PERIOD) reset = 0;
         end 
            
            // clock generation  
         always 
+        begin
             #(CLOCK_PERIOD/2)  clock =  ! clock; 
-            
+
+        end
+        
+        always
+        begin
+            #(PCLK_PERIOD/2) pclk = !pclk;
+        end
             
         initial 
         begin
         
-        
-        #CLOCK_PERIOD;
+        #(4*PCLK_PERIOD);
+
         
         $display("SERIALIZER TEST START");
   // NO ERROR TESTS          
@@ -156,140 +208,36 @@ for(k = 0; k< 4; k=k+1) begin
         req = 1;
         
                 
-            #(CLOCK_PERIOD) req = 0;
+            #(PCLK_PERIOD) req = 0;
         
-            #(CLOCK_PERIOD); 
-            if(serial_out == 1)begin
-                $display("LATCH OK"); // wait 1 clk period to latch data
-                ok_bits = ok_bits + 1;
-            end
-            else begin
-                $display("LATCH NO_OK");
-                failed_bits = failed_bits + 1;
-            end
-        
-        for( j = FRAME_NUMBER - 1 ; j >= 0; j = j-1) begin
-
-        
-            #(CLOCK_PERIOD); 
-            if(serial_out == 0) begin
-                $display("START OK"); // start bit
-                ok_bits = ok_bits + 1;
-            end
-            else begin
-                $display("START NO_OK");
-                failed_bits = failed_bits + 1;
-             end
+            #(1000*PCLK_PERIOD); 
+            $display("%b", serializer_out);
+            $display("%b", {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]} );
+            if(data_template_1[k] == {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]} ) $display("DATA_OK");
+            else $display("DATA_NOT_OK");
             
-            #(CLOCK_PERIOD) if(serial_out == 0) begin
-                $display("DATA TYPE OK"); // data type bit
-                ok_bits = ok_bits + 1;
-            end
-            else begin
-                $display("DATA TYPE NO_OK");
-                failed_bits = failed_bits + 1;
-            end
-                                        
-            for( i = 7 +j*8; i>=j*8  ; i=i-1 ) begin
-            #(CLOCK_PERIOD); 
-                if(serial_out == data_template_1[k][i]) begin
-                    $display("DATA OK"); // data bit
-                    ok_bits = ok_bits + 1;
-                end
-                else begin
-                    $display("DATA NO_OK");
-                    failed_bits = failed_bits + 1;
-                end 
-            end 
-            
-            #(CLOCK_PERIOD); 
-            if(serial_out == 1) begin
-                $display("STOP OK"); // start bit
-                ok_bits = ok_bits + 1;
-            end
-            else begin
-                $display("STOP NO_OK");
-                failed_bits = failed_bits + 1;
-             end                              
-                             
-       end   
-         
-       #(CLOCK_PERIOD)      
-       if(serial_out == 0) begin
-           $display("START OK"); // start bit
-           ok_bits = ok_bits + 1;
-       end
-       else begin
-           $display("START NO_OK");
-           failed_bits = failed_bits + 1;
-        end
-              
-        #(CLOCK_PERIOD)      
-        if(serial_out == 1) begin
-            $display("CTL TYPE OK"); // ctl type bit
-            ok_bits = ok_bits + 1;
-        end
-        else begin
-            $display("CTL TYPE NO_OK");
-            failed_bits = failed_bits + 1;
-         end
-         
-         #(CLOCK_PERIOD)      
-         if(serial_out == 1) begin
-             $display("CTL FIRST OK"); // ctl first bit
-             ok_bits = ok_bits + 1;
-         end
-         else begin
-             $display("CTL FIRST NO_OK");
-             failed_bits = failed_bits + 1;
-          end
-        
-                                   
-       for( i = 3; i>=0  ; i=i-1 ) begin
-       #(CLOCK_PERIOD); 
-            if(serial_out == flags_template_1[k][i])begin
-                $display("FLAGS OK"); // flags
-                ok_bits = ok_bits + 1;
-            end
-            else begin
-                 $display("FLAGS NO_OK");
-                 failed_bits = failed_bits + 1;
-             end                  
-        end                                
-
-       for( i = 2; i>=0  ; i=i-1 ) begin
-       #(CLOCK_PERIOD); 
-            if(serial_out == crc_template_1[k][i])begin
-                $display("CRC OK"); // crc bit
-                ok_bits = ok_bits + 1;
-            end
-            else begin
-                $display("CRC NO_OK");
-                failed_bits = failed_bits + 1;
-            end            
-        end                                
-        
-        #(CLOCK_PERIOD); 
-        if(serial_out == 1) begin
-            $display("STOP OK"); // stop bit
-            ok_bits = ok_bits + 1;
-        end
-        else begin
-            $display("STOP NO_OK");
-            failed_bits = failed_bits + 1;
-         end    
-        
-         $display("TEST1 SUMMARY: ");
-         $display("OK BITS: %d", ok_bits);
-         $display("FAILED BITS: %d", failed_bits);
-         #(CLOCK_PERIOD);
+            if( flags_template_1[k] == serializer_out[7:4] ) $display("flags OK");
+            else $display("flags_not_ok");
+                                        /* 54 52 
+                                         52 51 50 49 48 47 46 45
+                                         44 43 42
+                                         41 40 39 38 37 36 35 34
+                                         33 32 31
+                                         30 29 28 27 26 25 24 23
+                                         22 21 20 
+                                         19 18 17 16 15 14 13 12
+                                         11 10 9
+                                         8  7  6  5  4  3  2  1
+                                         0*/
+           
+                                         
 end        
 
 // ERRORS TESTS
 
 for(k = 0; k< 3; k=k+1) begin   
 
-
+        // #(4*PCLK_PERIOD); 
         error_frame = {error_template[k], error_template[k]};
            
         data_in = data_template_1[k];
@@ -297,93 +245,16 @@ for(k = 0; k< 3; k=k+1) begin
         crc_in = crc_template_1[k];        
         crc_error = error_template[k][2];
         op_error = error_template[k][1];
-        data_error = error_template[k][0];       
-        req = 1;
-        
-                
-      #(CLOCK_PERIOD) req = 0;          
+        data_error = error_template[k][0];               
 
-  #(CLOCK_PERIOD); 
-  if(serial_out == 1)begin
-      $display("LATCH OK"); // wait 1 clk period to latch data
-      ok_bits = ok_bits + 1;
-  end
-  else begin
-      $display("LATCH NO_OK");
-      failed_bits = failed_bits + 1;
-  end    
-            
-    #(CLOCK_PERIOD)      
-    if(serial_out == 0) begin
-        $display("START OK"); // start bit
-        ok_bits = ok_bits + 1;
-    end
-    else begin
-        $display("START NO_OK");
-        failed_bits = failed_bits + 1;
-    end
-       
-    #(CLOCK_PERIOD)      
-    if(serial_out == 1) begin
-         $display("CTL TYPE OK"); // ctl type bit
-        ok_bits = ok_bits + 1;
-    end
-    else begin
-         $display("CTL TYPE NO_OK");
-        failed_bits = failed_bits + 1;
-    end
-  
-    #(CLOCK_PERIOD)      
-    if(serial_out == 1) begin
-          $display("CTL FIRST OK"); // ctl first bit
-        ok_bits = ok_bits + 1;
-    end
-    else begin
-          $display("CTL FIRST NO_OK");
-        failed_bits = failed_bits + 1;
-    end
- 
-                            
-    for( i = 5; i>=0  ; i=i-1 ) begin
-    #(CLOCK_PERIOD); 
-         if(serial_out == error_frame[i])begin
-             $display("ERR FLAGS OK"); // flags
-            ok_bits = ok_bits + 1;
-        end
-        else begin
-              $display("ERR FLAGS NO_OK");
-            failed_bits = failed_bits + 1;
-        end                  
-    end         
+        #(1000*PCLK_PERIOD);
+        if( errors == error_template[k] ) $display("ok");
+        else $display ("not ok");
+        #(PCLK_PERIOD);                             
     
-    #(CLOCK_PERIOD)      
-    if(serial_out == (^error_frame)^1) begin
-          $display("CTL PARITY OK"); // ctl first bit
-        ok_bits = ok_bits + 1;
-    end
-    else begin
-          $display("CTL PARITY NO_OK");
-        failed_bits = failed_bits + 1;
-    end                       
-                                
- 
-    #(CLOCK_PERIOD); 
-    if(serial_out == 1) begin
-         $display("STOP OK"); // stop bit
-        ok_bits = ok_bits + 1;
-    end
-    else begin
-         $display("STOP NO_OK");
-        failed_bits = failed_bits + 1;
-    end    
- 
-    $display("TEST1 SUMMARY: ");
-    $display("OK BITS: %d", ok_bits);
-    $display("FAILED BITS: %d", failed_bits);
-    #(CLOCK_PERIOD);  
-    
-    reset = 1;
-    #(CLOCK_PERIOD) reset = 0;
+        reset = 1;
+        #(PCLK_PERIOD);
+        reset = 0;
     
 end            
             

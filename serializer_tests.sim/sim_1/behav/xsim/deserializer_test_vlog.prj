@@ -6,11 +6,13 @@ verilog xil_defaultlib  \
 "../../../../serializer_tests.srcs/sources_1/new/crc_in_calculator.v" \
 "../../../../serializer_tests.srcs/sources_1/new/alu_core.v" \
 "../../../../serializer_tests.srcs/sources_1/new/clk_divider.v" \
+"../../../../serializer_tests.srcs/sources_1/new/mtm_ALU.v" \
 "../../../../serializer_tests.srcs/sim_1/new/crc_test.v" \
 "../../../../serializer_tests.srcs/sim_1/new/deserializer_test.v" \
 "../../../../serializer_tests.srcs/sim_1/new/serializer_test.v" \
 "../../../../serializer_tests.srcs/sim_1/new/alu_core_test.v" \
 "../../../../serializer_tests.srcs/sim_1/new/clk_divider_test.v" \
+"../../../../serializer_tests.srcs/sim_1/new/alu_test.v" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"

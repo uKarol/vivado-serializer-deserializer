@@ -28,8 +28,8 @@ module deserializer_core_32(
     output reg ack,
     output reg frame_error,
     output reg crc_error, 
-    output reg [2 :0] opcode,
-    output reg [3 :0] crc
+    output reg [2 :0] opcode
+
     
     );
     
@@ -47,6 +47,7 @@ module deserializer_core_32(
        LATCH_DATA             = 4'b1000, 
        FRAME_ERROR            = 4'b1001,
        CRC_CALC               = 4'b1010,
+       CRC_ERROR              = 4'b1011,
        
        // deserializer parameters
        FRAME_SIZE = 7, 
@@ -71,7 +72,6 @@ module deserializer_core_32(
     reg ack_nxt;
     reg frame_error_nxt;    
     reg [2:0] opcode_nxt;
-    reg [3:0] crc_nxt; 
     reg crc_error_nxt;
     
     // INTERNAL PARALLEL SIGNALS 8
@@ -110,7 +110,6 @@ module deserializer_core_32(
             data_out_B <= 0;
             ack <= 0;       
             opcode <= 0;
-            crc <= 0;
             frame_error <= 0;  
                 
             parallel_crc <= 0;
@@ -133,7 +132,6 @@ module deserializer_core_32(
             data_out_B <= data_out_B_nxt;
             frame_error <=  frame_error_nxt;
             ack <= ack_nxt;
-            crc <= crc_nxt;
             opcode <= opcode_nxt;
             crc_error <= crc_error_nxt;
             
@@ -172,7 +170,6 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -204,7 +201,6 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -269,7 +265,6 @@ module deserializer_core_32(
              // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -320,8 +315,7 @@ module deserializer_core_32(
         
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
-            data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
+            data_out_B_nxt = data_out_B;                            
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0; 
@@ -406,7 +400,6 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -454,7 +447,6 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -520,7 +512,6 @@ module deserializer_core_32(
                             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -587,7 +578,6 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                             
-            crc_nxt = crc;
             opcode_nxt = opcode;
             ack_nxt = 0; 
             frame_error_nxt = 0;
@@ -638,7 +628,6 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
            data_out_A_nxt = data_out_A;
            data_out_B_nxt = data_out_B;                             
-           crc_nxt = crc;
            opcode_nxt = opcode;
            ack_nxt = 0; 
            frame_error_nxt = 0;
@@ -669,11 +658,10 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = parallel_data_A;
             data_out_B_nxt = parallel_data_B;                             
-            crc_nxt =  parallel_crc;
             opcode_nxt = parallel_opcode;
             ack_nxt = 1; 
             frame_error_nxt = 0;
-            crc_error_nxt = !(crc_calc == parallel_crc);
+            crc_error_nxt = 0;
 
             //INTERNAL PARALLEL SIGLAS NXT
             parallel_data_A_nxt = parallel_data_A;
@@ -690,7 +678,8 @@ module deserializer_core_32(
             bit_counter_nxt         = 0; 
 
             //NEXT STATE
-            des_state_nxt = DES_IDLE;
+            if(crc_calc == parallel_crc) des_state_nxt = DES_IDLE;
+            else des_state_nxt = CRC_ERROR;
   
         end        
         
@@ -700,10 +689,10 @@ module deserializer_core_32(
             // OUTPUT SIGNALS NXT           
             data_out_A_nxt = data_out_A;
             data_out_B_nxt = data_out_B;                            
-            crc_nxt =  parallel_crc;
             opcode_nxt = parallel_opcode;
             ack_nxt = 0; 
             frame_error_nxt = 1;
+            crc_error_nxt = 0;
 
             //INTERNAL PARALLEL SIGLAS NXT
             parallel_data_A_nxt = parallel_data_A;
@@ -719,6 +708,35 @@ module deserializer_core_32(
 
             //NEXT STATE
             des_state_nxt = FRAME_ERROR;
+  
+        end   
+        
+        
+        CRC_ERROR: 
+        begin     
+        
+            // OUTPUT SIGNALS NXT           
+            data_out_A_nxt = data_out_A;
+            data_out_B_nxt = data_out_B;                            
+            opcode_nxt = parallel_opcode;
+            ack_nxt = 0; 
+            frame_error_nxt =0;
+            crc_error_nxt = 1;
+    
+            //INTERNAL PARALLEL SIGLAS NXT
+            parallel_data_A_nxt = parallel_data_A;
+            parallel_data_B_nxt = parallel_data_B;
+                       
+            parallel_crc_nxt = parallel_crc;
+            parallel_opcode_nxt = parallel_opcode;
+
+            //COUNTER NXT
+            frame_counter_nxt       = 0;
+            oversample_counter_nxt  = 0;
+            bit_counter_nxt         = 0; 
+
+            //NEXT STATE
+            des_state_nxt = CRC_ERROR;
   
         end   
         

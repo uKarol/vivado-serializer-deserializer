@@ -41,7 +41,6 @@ module deserializer_test(
     wire [3:0] ovs_ctr;
     
     wire [2:0] opcode_test;
-    wire [3:0] crc_test;
     
     deserializer_core_32 DUT(    
         .clk(clock),
@@ -52,8 +51,7 @@ module deserializer_test(
         .ack(ack_test),
         .frame_error(frame_error),
         .crc_error(crc_error),
-        .opcode(opcode_test),
-        .crc(crc_test)
+        .opcode(opcode_test)
 
     );
     
@@ -229,7 +227,7 @@ module deserializer_test(
         $display("TESTS RESULTS : ");
         $display("DATA A : %b", data_out_A); 
         $display("DATA B : %b", data_out_B);       
-        $display("opcode %b, crc %b", opcode_test, crc_test);   
+        $display("opcode %b", opcode_test);   
         
         if( data_out_A == {serial_template_1[0][8:1], serial_template_1[1][8:1], serial_template_1[2][8:1], serial_template_1[3][8:1] } )    $display("DATA A PASSED");  
         else $display("TEST 1 DATA A FAILED"); 
@@ -237,7 +235,7 @@ module deserializer_test(
         if( data_out_B == {serial_template_1[4][8:1], serial_template_1[5][8:1], serial_template_1[6][8:1], serial_template_1[7][8:1] } )    $display("DATA B PASSED");
         else $display("TEST 1 DATA A FAILED"); 
         
-        if(( opcode_test == serial_template_1[8][7:5] ) && ( crc_test == serial_template_1[8][4:1])) $display("CMD TEST 1 PASSED");
+        if(( opcode_test == serial_template_1[8][7:5] ) ) $display("CMD TEST 1 PASSED");
         else $display("CMD TEST 1 FAILED");
         
        // TEST 2        
@@ -251,7 +249,7 @@ module deserializer_test(
         end                
          #CLOCK_PERIOD;  
         $display("TESTS RESULTS : ");
-        $display("opcode %b, crc %b", opcode_test, crc_test);  
+        $display("opcode %b ", opcode_test);  
         $display("DATA A : %b", data_out_A); 
         $display("DATA B : %b", data_out_B);           
          
@@ -261,7 +259,7 @@ module deserializer_test(
         if( data_out_B == {serial_template_2[4][8:1], serial_template_2[5][8:1], serial_template_2[6][8:1], serial_template_2[7][8:1] } )     $display("DATA B PASSED");
         else $display("TEST 2 DATA B FAILED"); 
         
-        if(( opcode_test == serial_template_2[8][7:5] ) && ( crc_test == serial_template_2[8][4:1])) $display("CMD TEST 2 PASSED");
+        if(( opcode_test == serial_template_2[8][7:5] ) ) $display("CMD TEST 2 PASSED");
         else $display("CMD TEST 2 FAILED");
               
         // TEST 3        
@@ -275,7 +273,7 @@ module deserializer_test(
         end                
          #CLOCK_PERIOD;  
         $display("TESTS RESULTS : ");
-        $display("opcode %b, crc %b", opcode_test, crc_test);  
+        $display("opcode %b ", opcode_test);  
         $display("DATA A : %b", data_out_A); 
         $display("DATA B : %b", data_out_B);           
                  
@@ -285,7 +283,7 @@ module deserializer_test(
         if( data_out_B == {serial_template_3[4][8:1], serial_template_3[5][8:1], serial_template_3[6][8:1], serial_template_3[7][8:1] } )     $display("DATA B PASSED");
         else $display("TEST 3 DATA B FAILED"); 
                 
-        if(( opcode_test == serial_template_3[8][7:5] ) && ( crc_test == serial_template_3[8][4:1])) $display("CMD TEST 3 PASSED");
+        if(( opcode_test == serial_template_3[8][7:5] )) $display("CMD TEST 3 PASSED");
         else $display("CMD TEST 3 FAILED");
         
         
@@ -388,30 +386,26 @@ module deserializer_test(
             $display("TEST 8 FAILED - ERROR EXPECTED");
             
             
-           // TEST 9        
+       
+        // TEST 9       
                     
-            for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
-                #CLOCK_PERIOD $display("TEST 9, serial data in: %b", serial_template_9[j][8:1]);
-                for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
-                    serial_data = serial_template_9[j][i];
-                    #BIT_SAMPLING_CYCLES;                       
-                end           
-            end                
-             #CLOCK_PERIOD;  
-            $display("TESTS RESULTS : ");
-            $display("opcode %b, crc %b", opcode_test, crc_test);  
-            $display("DATA A : %b", data_out_A); 
-            $display("DATA B : %b", data_out_B);           
-                     
-            if( data_out_A == {serial_template_9[0][8:1], serial_template_9[1][8:1], serial_template_9[2][8:1], serial_template_9[3][8:1] } )     $display("DATA A PASSED");  
-            else $display("TEST 9 DATA A FAILED"); 
-                    
-            if( data_out_B == {serial_template_9[4][8:1], serial_template_9[5][8:1], serial_template_9[6][8:1], serial_template_9[7][8:1] } )     $display("DATA B PASSED");
-            else $display("TEST 9 DATA B FAILED"); 
-                    
-            if(( opcode_test == serial_template_9[8][7:5] ) && ( crc_test == serial_template_9[8][4:1])) $display("CMD TEST 9 PASSED");
-            else $display("CMD TEST 9 FAILED");    
+        for( j = 0 ; j <= FRAME_NUMBER; j = j+1) begin
+            #CLOCK_PERIOD $display("TEST 9, serial data in: %b", serial_template_9[j][8:1]);
+            for( i = FRAME_SIZE ; i>=0  ; i=i-1 ) begin
+                serial_data = serial_template_9[j][i];
+                #BIT_SAMPLING_CYCLES;         
+            end           
+        end                
+          #CLOCK_PERIOD;  
+            if( crc_error == 1) begin
+                reset = 1;   
+                #CLOCK_PERIOD reset = 0;        
+                $display("TEST 8 PASSED - ERROR EXPECTED");
+            end 
+            else 
+                $display("TEST 8 FAILED - ERROR EXPECTED");
             
+                       
                                           
         $finish;
     end

@@ -24,6 +24,7 @@ module mtm_ALU(
     input clk,
     input rst,
     input sin,
+    output sout,
     // temporary
     output wire [31:0] result,
     output wire [2:0] crc_out,
@@ -39,6 +40,7 @@ module mtm_ALU(
     wire [31:0]data_B;
     wire [2:0]opcode;
     wire ack_des;
+    wire ack_ser;
     //wire data_error;
     //wire crc_error;
     
@@ -51,8 +53,7 @@ module mtm_ALU(
         .ack(ack_des),
         .frame_error(data_error),
         .crc_error(crc_error), 
-        .opcode(opcode),
-        .crc()
+        .opcode(opcode)
         
     );
     
@@ -60,7 +61,7 @@ module mtm_ALU(
             .clk(clk),
             .rst(rst),
             .req(ack_des),
-            .ack_in(1),
+            .ack_in(!ack_ser),
             .ack(ack_alu), 
             .a(data_A),
             .b(data_B),
@@ -73,7 +74,19 @@ module mtm_ALU(
             );
     
     
-    
+    serializer_core serializer(
+        .clk(clk),
+        .rst(rst),
+        .req(ack_alu),
+        .data_in(result),
+        .crc_in(crc_out),
+        .alu_flags_in(flags_out),
+        .data_err_in(data_error),
+        .crc_err_in(crc_error),
+        .op_err_in(op_err),
+        .serial_out(sout),
+        .ack(ack_ser)
+    );
     
     
 endmodule

@@ -31,10 +31,8 @@ module serializer_core(
     input wire crc_err_in,
     input wire op_err_in,
     output reg serial_out,
-    output reg ack,
-    output reg [4:0] bit_counter,
-    output reg [4:0] frame_counter,
-    output reg [3:0] state
+    output reg ack
+
     );
     
     //output signal nxt 
@@ -42,13 +40,13 @@ module serializer_core(
     reg ack_nxt;
     
     // states
-    //reg [3:0] state;
+    reg [3:0] state;
     reg [3:0] state_nxt;
     
     // counters 
-    //reg [4:0] bit_counter;
+    reg [4:0] bit_counter;
     reg [4:0] bit_counter_nxt;
-   // reg [4:0] frame_counter;
+    reg [4:0] frame_counter;
     reg [4:0] frame_counter_nxt;
     
     // registers
@@ -61,6 +59,9 @@ module serializer_core(
     reg [5:0] internal_errors;
     reg [5:0] internal_errors_nxt;
     
+    reg pclk = 1;
+    reg [2:0] pclk_ctr;
+    reg prst;
     
     localparam 
         IDLE = 4'b0000,
@@ -75,18 +76,29 @@ module serializer_core(
         ERR_FLAGS_SENDING = 4'b1001,
         PARITY_SENDING = 4'b1010,
         STOP_SENDING = 4'b1011,
-        ERROR_STOP = 4'b1100;    
+        ERROR_STOP = 4'b1100;   
+        
+always @(posedge clk) begin
+    if( rst == 1 ) begin 
+        pclk <= 0;
+        pclk_ctr <= 0;
+    end 
+    else begin
+        pclk = (pclk_ctr == 0)? !pclk : pclk;
+        pclk_ctr = pclk_ctr +1;
+    end
+end 
     
 
-always @(posedge clk or posedge rst) begin
+always @(posedge pclk or posedge rst) begin
     
     if( rst == 1) begin 
     
         //output signal nxt 
         serial_out             <= 1;
         serial_out_nxt         <= 1;
-        ack                    <= 0;
-        ack_nxt                <= 0;
+        ack                    <= 1;
+        ack_nxt                <= 1;
 
         // states
         state                  <= IDLE;
@@ -162,7 +174,7 @@ always @* begin
          begin
              // external signal nxt
              serial_out_nxt = 1;
-             ack_nxt = 0;
+             ack_nxt = 1;
              
              // counters 
              bit_counter_nxt = 0;
