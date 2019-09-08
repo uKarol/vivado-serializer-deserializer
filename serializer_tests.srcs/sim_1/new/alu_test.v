@@ -20,8 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module alu_test( );
-    reg clock, serial_data, reset; 
+module mtm_Alu_tb (
+    output reg clk,
+    output reg rst_n,
+    output reg sin,
+    output reg sout
+) ;
+
+  //  reg clock, serial_data, reset; 
     wire [31:0] result;
     wire [31:0] data_out_B;
     wire ack_test;
@@ -36,9 +42,9 @@ module alu_test( );
     wire serial_out;
 
  mtm_Alu DUT(
-    .clk(clock),
-    .rst(reset),
-    .sin(serial_data),
+    .clk(clk),
+    .rst(rst_n),
+    .sin(sout),
     .sout(serial_out)
     
     );
@@ -192,15 +198,15 @@ begin
      test_state = 0;
      bit_ctr = 0;
      pclk = 1;
-     clock = 1; 
-     reset = 1;
-     #CLOCK_PERIOD reset = 0;
-     #CLOCK_PERIOD reset = 1;
+     clk = 1; 
+     rst_n = 1;
+     #CLOCK_PERIOD rst_n = 0;
+     #CLOCK_PERIOD rst_n = 1;
 end 
    
    // clock generation  
 always 
-    #(CLOCK_PERIOD/2)  clock =  ! clock; 
+    #(CLOCK_PERIOD/2)  clk =  ! clk; 
     
 always 
      #(PCLK_PERIOD/2)  pclk =  ! pclk; 
@@ -269,7 +275,7 @@ integer WRONG_RESULTS;
 
 initial begin 
 
-    serial_data = 1;
+      sin = 1;
     
     // test case 1
     // valid frames
@@ -428,16 +434,16 @@ end
       input [7:0] byte;
       input cmd;
       begin
-        serial_data = 1'b0; // start_bit
+        sin = 1'b0; // start_bit
         #BIT_SAMPLING_CYCLES;         
-        if( cmd == 1 ) serial_data = 1'b1; // packet type bit
-        else serial_data = 1'b0;
+        if( cmd == 1 ) sin = 1'b1; // packet type bit
+        else sin = 1'b0;
         #BIT_SAMPLING_CYCLES; // data or cmd 
         for( i = BYTE_SIZE ; i>=0  ; i=i-1 ) begin
-            serial_data = byte[i];
+            sin = byte[i];
             #BIT_SAMPLING_CYCLES;                               
         end  
-        serial_data = 1'b1;  
+        sin = 1'b1;  
         #BIT_SAMPLING_CYCLES;
       end
   endtask 
@@ -555,9 +561,9 @@ end
             $display("UNEXPECTED_ERROR_DETECTED"); 
             UNEXPECTED_ERRORS = UNEXPECTED_ERRORS+1;
            
-            reset = 0;
+            rst_n = 0;
             #CLOCK_PERIOD;
-            reset = 1;
+            rst_n = 1;
        end
   
   end
@@ -583,9 +589,9 @@ end
             end 
         
         end 
-        reset = 0;
+        rst_n = 0;
         #PCLK_PERIOD;
-        reset = 1;
+        rst_n = 1;
   end
   endtask
  

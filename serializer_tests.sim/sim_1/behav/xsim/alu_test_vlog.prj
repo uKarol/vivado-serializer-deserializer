@@ -13,6 +13,7 @@ verilog xil_defaultlib  \
 "../../../../serializer_tests.srcs/sim_1/new/alu_core_test.v" \
 "../../../../serializer_tests.srcs/sim_1/new/clk_divider_test.v" \
 "../../../../serializer_tests.srcs/sim_1/new/alu_test.v" \
+"../../../../serializer_tests.srcs/sim_1/new/mtm_Alu_test_top.v" \
 
 # compile glbl module
 verilog xil_defaultlib "glbl.v"

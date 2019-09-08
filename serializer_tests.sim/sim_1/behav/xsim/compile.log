@@ -23,4 +23,6 @@ INFO: [VRFC 10-311] analyzing module alu_core_test
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/clk_divider_test.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module clk_divider_test
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/alu_test.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module alu_test
+INFO: [VRFC 10-311] analyzing module mtm_Alu_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Karol/Desktop/semestr_6/cyfrowka_vlsi/serializer_tests/serializer_tests.srcs/sim_1/new/mtm_Alu_test_top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mtm_Alu_test_top
