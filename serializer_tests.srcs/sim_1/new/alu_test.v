@@ -299,78 +299,40 @@ initial begin
     // TEST 4        
             
       send_calculation_data( {serial_template_4[0], serial_template_4[1], serial_template_4[2], serial_template_4[3], serial_template_4[4], serial_template_4[5], serial_template_4[6], serial_template_4[7], serial_template_4[8]} );     
-     #(10*CLOCK_PERIOD);  
-    if( frame_error == 1) begin    
-        $display("TEST 4 PASSED - ERROR EXPECTED");
-    end 
-    else 
-        $display("TEST 4 FAILED - ERROR EXPECTED");
-        
-        reset = 1;   
-        #CLOCK_PERIOD reset = 0;  
+     #(100*PCLK_PERIOD);  
+     compare_error(errors, 3'b001);
         
         
     // TEST 5        
                 
       send_calculation_data( {serial_template_5[0], serial_template_5[1], serial_template_5[2], serial_template_5[3], serial_template_5[4], serial_template_5[5], serial_template_5[6], serial_template_5[7], serial_template_5[8]} ); 
-    #(10*CLOCK_PERIOD);   
-        if( frame_error == 1) begin      
-            $display("TEST 5 PASSED - ERROR EXPECTED");
-        end 
-        else 
-            $display("TEST 5 FAILED - ERROR EXPECTED");  
-            reset = 1;   
-            #CLOCK_PERIOD reset = 0;  
+     #(100*PCLK_PERIOD);  
+      compare_error(errors, 3'b001); 
             
                       
     // TEST 6        
                     
       send_calculation_data( {serial_template_6[0], serial_template_6[1], serial_template_6[2], serial_template_6[3], serial_template_6[4], serial_template_6[5], serial_template_6[6], serial_template_6[7], serial_template_6[8]} ); 
-    #(10*CLOCK_PERIOD);   
-            if( frame_error == 1) begin      
-                $display("TEST 6 PASSED - ERROR EXPECTED");
-            end 
-            else 
-                $display("TEST 6 FAILED - ERROR EXPECTED");            
-                
-                reset = 1;   
-                #CLOCK_PERIOD reset = 0;  
+     #(100*PCLK_PERIOD);  
+      compare_error(errors, 3'b001);
  
     // TEST 7        
       send_calculation_data( {serial_template_7[0], serial_template_7[1], serial_template_7[2], serial_template_7[3], serial_template_7[4], serial_template_7[5], serial_template_7[6], serial_template_7[7], serial_template_7[8]} ); 
-        #(10*CLOCK_PERIOD);    
-                if( frame_error == 1) begin      
-                    $display("TEST 7 PASSED - ERROR EXPECTED");
-                end 
-                else 
-                    $display("TEST 7 FAILED - ERROR EXPECTED");     
-                            reset = 1;   
-                    #CLOCK_PERIOD reset = 0;  
+     #(100*PCLK_PERIOD);  
+     compare_error(errors, 3'b001);
 
     // TEST 8        
             
    send_calculation_data( {serial_template_8[0], serial_template_8[1], serial_template_8[2], serial_template_8[3], serial_template_8[4], serial_template_8[5], serial_template_8[6], serial_template_8[7], serial_template_8[8]} ); 
-    #(10*CLOCK_PERIOD);   
-    if( frame_error == 1) begin        
-        $display("TEST 8 PASSED - ERROR EXPECTED");
-    end 
-    else 
-        $display("TEST 8 FAILED - ERROR EXPECTED");
-                    reset = 1;   
-        #CLOCK_PERIOD reset = 0;  
+     #(100*PCLK_PERIOD);  
+   compare_error(errors, 3'b001);  
         
         
     // TEST 9        
                 
       send_calculation_data( {serial_template_9[0], serial_template_9[1], serial_template_9[2], serial_template_9[3], serial_template_9[4], serial_template_9[5], serial_template_9[6], serial_template_9[7], serial_template_9[8]} ); 
-      #(10*CLOCK_PERIOD);   
-        if( crc_error == 1) begin
-            reset = 1;   
-            #CLOCK_PERIOD reset = 0;        
-            $display("TEST 9 PASSED - ERROR EXPECTED");
-        end 
-        else 
-            $display("TEST 9 FAILED - ERROR EXPECTED");
+     #(100*PCLK_PERIOD);  
+     compare_error(errors, 3'b100);
             
                                       
     $finish;
@@ -527,7 +489,7 @@ end
         else
         begin
             if(EXPECTED_ERROR == ERRORS) begin
-                $display("EXPECTED_ERROR_DETECTED"); 
+                $display("OK - EXPECTED_ERROR_DETECTED"); 
                 EXPECTED_ERRORS = EXPECTED_ERRORS+1;                
             end
             else 
@@ -537,7 +499,9 @@ end
             end 
         
         end 
-        
+        reset = 1;
+        #PCLK_PERIOD;
+        reset = 0;
   end
   endtask
  
