@@ -69,6 +69,8 @@ reg pclk;
 
 integer i; // loop counter
 integer j;
+
+integer random_ctr;
 // serial frame format: [ 0, packet type, packet pits, stop ] 
 reg [DATA_SIZE:0]serial_template_A [FRAME_NUMBER:0];
 reg [DATA_SIZE:0]serial_template_B [FRAME_NUMBER:0];
@@ -82,6 +84,10 @@ reg [BYTE_SIZE:0]serial_template_6 [FRAME_NUMBER:0];
 reg [BYTE_SIZE:0]serial_template_7 [FRAME_NUMBER:0]; 
 reg [BYTE_SIZE+1:0]serial_template_8 [FRAME_NUMBER:0]; 
 reg [BYTE_SIZE:0]serial_template_9 [FRAME_NUMBER:0]; 
+
+reg [DATA_SIZE:0]random_template_A;
+reg [DATA_SIZE:0]random_template_B;
+reg [BYTE_SIZE:0]random_ctl_template;
 
 // DATA FRAMES 
 
@@ -296,7 +302,85 @@ initial begin
       compare( 3'b001, serial_template_A[2], serial_template_B[2], {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]}, serializer_out[7:4], errors );   
 
     
-    // TEST 4        
+
+    
+    $display("1000 random tests - AND" );
+    
+    for (random_ctr = 0; random_ctr < 1000; random_ctr = random_ctr + 1) begin
+        random_template_A = $random;
+        random_template_B = $random;
+        $display("TEST NR %d", random_ctr);
+        $display("RANDOM DATA A %b", random_template_A );
+        $display("RANDOM DATA B %b", random_template_B );
+        random_ctl_template = 0;
+        #PCLK_PERIOD;
+        
+        ctl_attach(random_template_A, random_template_B, 3'b000, random_ctl_template); 
+        send_calculation_data( {random_template_A, random_template_B, random_ctl_template} ); 
+        #(100*PCLK_PERIOD);     
+        compare( 3'b000, random_template_A, random_template_B, {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]}, serializer_out[7:4], errors );   
+
+    end 
+    
+    
+    $display("1000 random tests - OR" );
+    
+    for (random_ctr = 0; random_ctr < 1000; random_ctr = random_ctr + 1) begin
+        random_template_A = $random;
+        random_template_B = $random;
+        $display("TEST NR %d", random_ctr);
+        $display("RANDOM DATA A %b", random_template_A );
+        $display("RANDOM DATA B %b", random_template_B );
+        random_ctl_template = 0;
+        #PCLK_PERIOD;
+        
+        ctl_attach(random_template_A, random_template_B, 3'b001, random_ctl_template); 
+        send_calculation_data( {random_template_A, random_template_B, random_ctl_template} ); 
+        #(101*PCLK_PERIOD);     
+        compare( 3'b001, random_template_A, random_template_B, {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]}, serializer_out[7:4], errors );   
+
+    end 
+    
+    $display("1000 random tests - ADD" );
+    
+    for (random_ctr = 0; random_ctr < 1000; random_ctr = random_ctr + 1) begin
+        random_template_A = $random;
+        random_template_B = $random;
+        $display("TEST NR %d", random_ctr);
+        $display("RANDOM DATA A %b", random_template_A );
+        $display("RANDOM DATA B %b", random_template_B );
+        random_ctl_template = 0;
+        #PCLK_PERIOD;
+        
+        ctl_attach(random_template_A, random_template_B, 3'b100, random_ctl_template); 
+        send_calculation_data( {random_template_A, random_template_B, random_ctl_template} ); 
+        #(100*PCLK_PERIOD);     
+        compare( 3'b100, random_template_A, random_template_B, {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]}, serializer_out[7:4], errors );   
+
+    end 
+            
+            
+    $display("1000 random tests - SUB" );
+    
+    for (random_ctr = 0; random_ctr < 1000; random_ctr = random_ctr + 1) begin
+        random_template_A = $random;
+        random_template_B = $random;
+        $display("TEST NR %d", random_ctr);
+        $display("RANDOM DATA A %b", random_template_A );
+        $display("RANDOM DATA B %b", random_template_B );
+        random_ctl_template = 0;
+        #PCLK_PERIOD;
+        
+        ctl_attach(random_template_A, random_template_B, 3'b101, random_ctl_template); 
+        send_calculation_data( {random_template_A, random_template_B, random_ctl_template} ); 
+        #(100*PCLK_PERIOD);     
+        compare( 3'b101, random_template_A, random_template_B, {serializer_out[52: 45], serializer_out[41: 34], serializer_out[30: 23], serializer_out[19: 12]}, serializer_out[7:4], errors );   
+
+    end         
+    
+    $display("invalid frames tests");
+    
+     // TEST 4        
             
       send_calculation_data( {serial_template_4[0], serial_template_4[1], serial_template_4[2], serial_template_4[3], serial_template_4[4], serial_template_4[5], serial_template_4[6], serial_template_4[7], serial_template_4[8]} );     
      #(100*PCLK_PERIOD);  
@@ -333,7 +417,14 @@ initial begin
       send_calculation_data( {serial_template_9[0], serial_template_9[1], serial_template_9[2], serial_template_9[3], serial_template_9[4], serial_template_9[5], serial_template_9[6], serial_template_9[7], serial_template_9[8]} ); 
      #(100*PCLK_PERIOD);  
      compare_error(errors, 3'b100);
-            
+     
+    // TEST 10        
+             
+    ctl_attach(serial_template_A[2], serial_template_B[2], 3'b111, ctl_template[2]); // invalid opcode
+    send_calculation_data( {serial_template_A[2], serial_template_B[2], ctl_template[2]} ); 
+    #(100*PCLK_PERIOD);     
+    compare_error(errors, 3'b010);
+    
                                       
     $finish;
 end
@@ -405,9 +496,9 @@ end
             begin
                 expected_result = A&B; 
 				#CLOCK_PERIOD;
-				if(expected_result == 0) expected_flags[2] = 1;
+				if(expected_result == 0) expected_flags[2] = 1'b1;
 				#CLOCK_PERIOD;
-				if(expected_result[31] == 1) expected_flags[3] = 1;
+				if(expected_result[31] == 1) expected_flags[3] = 1'b1;
             end 
             3'b001:
             begin
@@ -450,7 +541,7 @@ end
             end
             else 
             begin
-                $display("RESULT NOT OK");
+                $display("RESULT NOT OK, EXPECTED %b ACTUAL, %b", RESULT, expected_result);
                 WRONG_RESULTS = WRONG_RESULTS+1;
             end
 			
