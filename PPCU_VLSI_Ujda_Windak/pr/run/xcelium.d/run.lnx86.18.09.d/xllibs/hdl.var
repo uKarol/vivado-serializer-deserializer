@@ -1,0 +1,6 @@
+define LIB_MAP ( $LIB_MAP \
+, ../../../../rtl => rtl \
+)
+define LIB_MAP ( $LIB_MAP \
+, ../../../../rtl => rtl \
+)

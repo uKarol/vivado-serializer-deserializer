@@ -1,0 +1,32 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx86.18.09.d
+-RUNMODE
+./../tb/mtm_Alu_test_top.v
+./../tb/mtm_Alu_tb.v
+-YDIR
+./../rtl
+-LIBEXT
+.v
+-NOWARN
+DLNOHV
+-NOWARN
+DLCLAP
+-NOWARN
+DSEM2009
+-NOWARN
+DSEMEL
+-VTIMESCALE
+1ns/1ps
+-CDSLIB
+./xcelium.d/run.lnx86.18.09.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx86.18.09.d/hdlrun.var
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./xcelium.d/run.lnx86.18.09.d/xllibs
+-ALLOWUNBOUND
