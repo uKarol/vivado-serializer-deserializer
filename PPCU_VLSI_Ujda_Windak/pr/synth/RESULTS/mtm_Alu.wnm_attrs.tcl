@@ -93,12 +93,12 @@ set_db {pin:mtm_Alu/u_mtm_Alu_core/crc_out_reg[1]/NQ} .original_name {u_mtm_Alu_
 set_db {pin:mtm_Alu/u_mtm_Alu_core/crc_out_reg[1]/Q} .original_name {u_mtm_Alu_core/crc_out[1]/q}
 set_db {pin:mtm_Alu/u_mtm_Alu_core/crc_out_reg[2]/NQ} .original_name {u_mtm_Alu_core/crc_out[2]/q}
 set_db {pin:mtm_Alu/u_mtm_Alu_core/crc_out_reg[2]/Q} .original_name {u_mtm_Alu_core/crc_out[2]/q}
-set_db pin:mtm_Alu/u_mtm_Alu_deserializer/crc_error_reg/NQ .original_name {u_mtm_Alu_deserializer/crc_error/q}
-set_db pin:mtm_Alu/u_mtm_Alu_deserializer/crc_error_reg/Q .original_name {u_mtm_Alu_deserializer/crc_error/q}
 set_db pin:mtm_Alu/u_mtm_Alu_deserializer/ack_reg/NQ .original_name {u_mtm_Alu_deserializer/ack/q}
 set_db pin:mtm_Alu/u_mtm_Alu_deserializer/ack_reg/Q .original_name {u_mtm_Alu_deserializer/ack/q}
 set_db pin:mtm_Alu/u_mtm_Alu_deserializer/frame_error_reg/NQ .original_name {u_mtm_Alu_deserializer/frame_error/q}
 set_db pin:mtm_Alu/u_mtm_Alu_deserializer/frame_error_reg/Q .original_name {u_mtm_Alu_deserializer/frame_error/q}
+set_db pin:mtm_Alu/u_mtm_Alu_deserializer/crc_error_reg/NQ .original_name {u_mtm_Alu_deserializer/crc_error/q}
+set_db pin:mtm_Alu/u_mtm_Alu_deserializer/crc_error_reg/Q .original_name {u_mtm_Alu_deserializer/crc_error/q}
 set_db {pin:mtm_Alu/u_mtm_Alu_deserializer/bit_counter_reg[0]/NQ} .original_name {u_mtm_Alu_deserializer/bit_counter[0]/q}
 set_db {pin:mtm_Alu/u_mtm_Alu_deserializer/bit_counter_reg[0]/Q} .original_name {u_mtm_Alu_deserializer/bit_counter[0]/q}
 set_db {pin:mtm_Alu/u_mtm_Alu_deserializer/bit_counter_reg[1]/NQ} .original_name {u_mtm_Alu_deserializer/bit_counter[1]/q}

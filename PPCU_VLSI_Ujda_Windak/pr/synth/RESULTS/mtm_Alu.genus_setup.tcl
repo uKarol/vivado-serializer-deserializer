@@ -2,7 +2,7 @@
 #
 # Genus(TM) Synthesis Solution setup file
 # Created by Genus(TM) Synthesis Solution 17.13-s033_1
-#   on 09/09/2019 23:41:12
+#   on 09/11/2019 16:24:15
 #
 # This file can only be run in Genus Common UI mode.
 #
@@ -49,13 +49,13 @@ set _slk_ [::legacy::get_attribute slack design:mtm_Alu]
 if {[regexp {^-?[0-9.]+$} $_slk_]} {
   set _slk_ [format %.1f $_slk_]
 }
-if {$_slk_ != "2043.4"} {
-   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack: 2043.4,  current slack: $_slk_"
+if {$_slk_ != "2065.1"} {
+   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack: 2065.1,  current slack: $_slk_"
 }
 unset _slk_
 # multi-mode slack
-if {"[string_representation [::legacy::get_attribute slack_by_mode design:mtm_Alu]]" != "{{mode:mtm_Alu/WC_av 2043.4}}"} {
-   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack_by_mode: {{mode:mtm_Alu/WC_av 2043.4}}  current slack_by_mode: [string_representation [::legacy::get_attribute slack_by_mode design:mtm_Alu]]"
+if {"[string_representation [::legacy::get_attribute slack_by_mode design:mtm_Alu]]" != "{{mode:mtm_Alu/WC_av 2065.1}}"} {
+   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden slack_by_mode: {{mode:mtm_Alu/WC_av 2065.1}}  current slack_by_mode: [string_representation [::legacy::get_attribute slack_by_mode design:mtm_Alu]]"
 }
 # tns
 set _tns_ [::legacy::get_attribute tns design:mtm_Alu]
@@ -71,8 +71,8 @@ set _cell_area_ [::legacy::get_attribute cell_area design:mtm_Alu]
 if {[regexp {^-?[0-9.]+$} $_cell_area_]} {
   set _cell_area_ [format %.0f $_cell_area_]
 }
-if {$_cell_area_ != "54880"} {
-   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden cell area: 54880,  current cell area: $_cell_area_"
+if {$_cell_area_ != "52703"} {
+   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden cell area: 52703,  current cell area: $_cell_area_"
 }
 unset _cell_area_
 # net area
@@ -80,8 +80,8 @@ set _net_area_ [::legacy::get_attribute net_area design:mtm_Alu]
 if {[regexp {^-?[0-9.]+$} $_net_area_]} {
   set _net_area_ [format %.0f $_net_area_]
 }
-if {$_net_area_ != "24644"} {
-   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden net area: 24644,  current net area: $_net_area_"
+if {$_net_area_ != "23225"} {
+   mesg_send [::legacy::find -message /messages/PHYS/PHYS-92] "golden net area: 23225,  current net area: $_net_area_"
 }
 unset _net_area_
 # library domain count

@@ -1,7 +1,7 @@
 #####################################################################
 #
 # Innovus setup file
-# Created by Genus(TM) Synthesis Solution on 09/09/2019 23:41:12
+# Created by Genus(TM) Synthesis Solution on 09/11/2019 16:24:15
 #
 # This file can only be run in Innovus Common UI mode.
 #
@@ -14,7 +14,6 @@
 source /home/student/awindak/PPCU_VLSI/projekt_ALU_U_W/synth/RESULTS/mtm_Alu.flowkit_settings.tcl
 
 source /home/student/awindak/PPCU_VLSI/projekt_ALU_U_W/synth/RESULTS/mtm_Alu.invs_init.tcl
-update_constraint_mode -name standard_cm -sdc_files {/home/student/awindak/PPCU_VLSI/projekt_ALU_U_W/synth/RESULTS/mtm_Alu.standard_cm.sdc /home/student/awindak/PPCU_VLSI/projekt_ALU_U_W/synth/RESULTS/mtm_Alu.loopbreaker.sdc}
 
 # Reading metrics file
 ######################
